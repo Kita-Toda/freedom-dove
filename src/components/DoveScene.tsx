@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Spotlight } from './Spotlight';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,106 +32,142 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.z = 4.5;
     cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowShadowMap;
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // Enhanced lighting setup
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(5, 5, 5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(8, 8, 6);
     directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
     scene.add(directionalLight);
 
-    const pointLight = new THREE.PointLight(0xd4a574, 0.5);
-    pointLight.position.set(-5, 3, 3);
-    scene.add(pointLight);
+    // Gold spotlight accent
+    const spotLight = new THREE.PointLight(0xd4a574, 1.2);
+    spotLight.position.set(-6, 4, 4);
+    spotLight.distance = 20;
+    scene.add(spotLight);
 
-    // Create dove (simplified geometry)
+    // Create refined dove
     const doveGroup = new THREE.Group();
 
-    // Body
-    const bodyGeometry = new THREE.SphereGeometry(0.8, 32, 32);
+    // Body (larger, more refined)
+    const bodyGeometry = new THREE.SphereGeometry(1.0, 64, 48);
     const bodyMaterial = new THREE.MeshStandardMaterial({
       color: 0xf5f1e8,
-      metalness: 0.1,
-      roughness: 0.6,
+      metalness: 0.05,
+      roughness: 0.65,
+      envMapIntensity: 0.5,
     });
     const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    body.scale.set(1, 0.85, 1.3); // Elongated body
     body.castShadow = true;
     body.receiveShadow = true;
     doveGroup.add(body);
 
-    // Head
-    const headGeometry = new THREE.SphereGeometry(0.35, 32, 32);
+    // Head (smaller, better proportioned)
+    const headGeometry = new THREE.SphereGeometry(0.28, 64, 48);
     const headMaterial = new THREE.MeshStandardMaterial({
       color: 0xf5f1e8,
-      metalness: 0.1,
+      metalness: 0.08,
       roughness: 0.6,
     });
     const head = new THREE.Mesh(headGeometry, headMaterial);
-    head.position.set(0, 0.5, 0.8);
+    head.position.set(0, 0.6, 1.1);
     head.castShadow = true;
     head.receiveShadow = true;
     doveGroup.add(head);
 
-    // Eyes
-    const eyeGeometry = new THREE.SphereGeometry(0.08, 16, 16);
+    // Beak
+    const beakGeometry = new THREE.ConeGeometry(0.08, 0.4, 16);
+    const beakMaterial = new THREE.MeshStandardMaterial({
+      color: 0xd4a574,
+      metalness: 0.2,
+      roughness: 0.5,
+    });
+    const beak = new THREE.Mesh(beakGeometry, beakMaterial);
+    beak.position.set(0, 0.55, 1.35);
+    beak.rotation.x = Math.PI / 2;
+    beak.castShadow = true;
+    doveGroup.add(beak);
+
+    // Eyes (with shine)
+    const eyeGeometry = new THREE.SphereGeometry(0.1, 32, 24);
     const eyeMaterial = new THREE.MeshStandardMaterial({
       color: 0x1a1a1a,
-      metalness: 0.3,
-      roughness: 0.3,
+      metalness: 0.6,
+      roughness: 0.2,
     });
     const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-    leftEye.position.set(-0.15, 0.65, 1.1);
+    leftEye.position.set(-0.12, 0.7, 1.25);
     leftEye.castShadow = true;
     doveGroup.add(leftEye);
 
     const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-    rightEye.position.set(0.15, 0.65, 1.1);
+    rightEye.position.set(0.12, 0.7, 1.25);
     rightEye.castShadow = true;
     doveGroup.add(rightEye);
 
-    // Wings
-    const wingGeometry = new THREE.BoxGeometry(0.3, 1.2, 2.2);
+    // Refined wings using LatheGeometry for smooth curves
     const wingMaterial = new THREE.MeshStandardMaterial({
       color: 0xf5f1e8,
-      metalness: 0.08,
+      metalness: 0.03,
       roughness: 0.7,
+      side: THREE.DoubleSide,
     });
 
-    const leftWing = new THREE.Mesh(wingGeometry, wingMaterial);
-    leftWing.position.set(-0.8, 0, 0);
+    // Wing shape profile
+    const wingPoints = [
+      new THREE.Vector2(0, 0),
+      new THREE.Vector2(0.15, 0.2),
+      new THREE.Vector2(0.35, 0.5),
+      new THREE.Vector2(0.45, 0.8),
+      new THREE.Vector2(0.42, 1.1),
+      new THREE.Vector2(0.35, 1.3),
+      new THREE.Vector2(0.15, 1.2),
+      new THREE.Vector2(0.05, 0.8),
+    ];
+
+    const leftWingGeometry = new THREE.LatheGeometry(wingPoints, 12);
+    const leftWing = new THREE.Mesh(leftWingGeometry, wingMaterial);
+    leftWing.position.set(-0.9, 0.1, -0.2);
+    leftWing.scale.set(0.8, 1, 0.5);
+    leftWing.rotation.z = 0.4;
     leftWing.castShadow = true;
     leftWing.receiveShadow = true;
-    leftWing.rotation.z = 0.3;
     doveGroup.add(leftWing);
 
-    const rightWing = new THREE.Mesh(wingGeometry, wingMaterial);
-    rightWing.position.set(0.8, 0, 0);
+    const rightWingGeometry = new THREE.LatheGeometry(wingPoints, 12);
+    const rightWing = new THREE.Mesh(rightWingGeometry, wingMaterial);
+    rightWing.position.set(0.9, 0.1, -0.2);
+    rightWing.scale.set(-0.8, 1, 0.5);
+    rightWing.rotation.z = -0.4;
     rightWing.castShadow = true;
     rightWing.receiveShadow = true;
-    rightWing.rotation.z = -0.3;
     doveGroup.add(rightWing);
 
-    // Tail
-    const tailGeometry = new THREE.ConeGeometry(0.4, 0.8, 16);
+    // Tail feathers
+    const tailGeometry = new THREE.ConeGeometry(0.5, 1.2, 32);
     const tailMaterial = new THREE.MeshStandardMaterial({
       color: 0xf5f1e8,
-      metalness: 0.1,
-      roughness: 0.7,
+      metalness: 0.04,
+      roughness: 0.68,
     });
     const tail = new THREE.Mesh(tailGeometry, tailMaterial);
-    tail.position.set(0, 0, -1.2);
-    tail.rotation.x = Math.PI / 2;
+    tail.position.set(0, -0.2, -1.3);
+    tail.rotation.x = Math.PI / 2.2;
     tail.castShadow = true;
     tail.receiveShadow = true;
     doveGroup.add(tail);
@@ -154,39 +191,42 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
 
       const time = clock.getElapsedTime();
 
-      // Idle breathing animation
+      // Idle animations
       if (doveRef.current) {
-        doveRef.current.rotation.y += 0.005;
+        doveRef.current.rotation.y += 0.004;
 
-        // Subtle up/down bob
-        doveRef.current.position.y = Math.sin(time * 0.8) * 0.3;
+        // Gentle breathing motion
+        doveRef.current.position.y = Math.sin(time * 0.6) * 0.25;
 
-        // Wing flutter
-        const leftWing = doveRef.current.children[3];
-        const rightWing = doveRef.current.children[4];
+        // Smooth wing flapping
+        const leftWing = doveRef.current.children[5];
+        const rightWing = doveRef.current.children[6];
         if (leftWing && rightWing) {
-          leftWing.rotation.z = 0.3 + Math.sin(time * 4) * 0.2;
-          rightWing.rotation.z = -0.3 + Math.sin(time * 4 + Math.PI) * 0.2;
+          const wingFlap = Math.sin(time * 2.5) * 0.25;
+          leftWing.rotation.z = 0.4 + wingFlap;
+          rightWing.rotation.z = -0.4 - wingFlap;
         }
 
-        // Scroll-based rotation
+        // Scroll-based interaction
         const scrollFactor = Math.min(scrollY / window.innerHeight, 1);
-        doveRef.current.rotation.x = scrollFactor * Math.PI * 0.5;
+        doveRef.current.rotation.x = scrollFactor * Math.PI * 0.3;
+        doveRef.current.position.z = scrollFactor * 1.5;
 
-        // Glow based on scroll
-        directionalLight.intensity = 0.8 + scrollFactor * 0.4;
-        pointLight.intensity = 0.5 + scrollFactor * 0.5;
+        // Lighting response to scroll
+        directionalLight.intensity = 1 + scrollFactor * 0.3;
+        spotLight.intensity = 1.2 + scrollFactor * 0.4;
       }
 
-      // Camera slight pan
-      camera.position.x = Math.sin(time * 0.3) * 0.5;
+      // Subtle camera drift
+      camera.position.x = Math.sin(time * 0.2) * 0.3;
+      camera.position.y = Math.cos(time * 0.25) * 0.2;
 
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // Handle resize
+    // Resize handler
     const handleResize = () => {
       if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
 
@@ -213,10 +253,17 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-screen bg-gradient-to-b from-black to-charcoal relative"
-      style={{ position: 'relative', overflow: 'hidden' }}
-    />
+    <div className="relative w-full h-full">
+      <div
+        ref={containerRef}
+        className="w-full h-screen bg-gradient-to-b from-black to-charcoal relative overflow-hidden"
+        style={{ position: 'relative', overflow: 'hidden' }}
+      />
+      {/* Spotlight overlay */}
+      <Spotlight
+        className="-top-40 left-0 md:left-60 md:-top-20"
+        fill="#d4a574"
+      />
+    </div>
   );
 }
