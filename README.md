@@ -31,6 +31,7 @@ A stunning, premium website built with cutting-edge web technologies celebrating
 | **3D Graphics** | Three.js | Real-time 3D dove rendering |
 | **Animation** | GSAP 3.x | Scroll-triggered effects, timelines |
 | **Styling** | Tailwind CSS 3.x | Utility-first design system |
+| **Component Library** | 21st Dev | Reusable component registry & sharing |
 | **Fonts** | Google Fonts | Geist, Playfair Display, Caveat |
 
 ### Project Structure
