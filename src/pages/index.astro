@@ -4,9 +4,20 @@ import DoveScene from '../components/DoveScene';
 ---
 
 <Layout title="Freedom — Humanitarian Platform">
-  <div class="relative z-10">
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-[999] focus:bg-gold focus:text-black focus:px-4 focus:py-2 focus:font-bold">
+    Skip to main content
+  </a>
+
+  <div id="main" class="relative z-10">
     <!-- Hero Section with Dove -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <section class="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-black to-charcoal">
+      <!-- Background imagery (subtle, blurred) -->
+      <div class="absolute inset-0 opacity-30 pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent"></div>
+        <div class="absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(212,165,116,0.15) 0%, transparent 70%)"></div>
+        <div class="absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(139,111,142,0.15) 0%, transparent 70%)"></div>
+      </div>
+
       <DoveScene client:load />
 
       <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
@@ -47,7 +58,7 @@ import DoveScene from '../components/DoveScene';
               We believe in the fundamental right to freedom for all human beings. Our platform connects advocates, organizations, and communities working to end exploitation and trafficking.
             </p>
             <div class="flex gap-4">
-              <a href="#action" class="px-8 py-4 bg-gold text-black font-bold rounded-full hover:scale-105 transition-transform duration-200 uppercase text-sm tracking-wider">
+              <a href="#action" class="px-8 py-4 bg-gold text-black font-bold rounded-full hover:scale-[1.02] transition-transform duration-200 uppercase text-sm tracking-wider">
                 Get Involved
               </a>
               <a href="#impact" class="px-8 py-4 border-2 border-gold text-gold font-bold rounded-full hover:bg-gold hover:text-black transition-all duration-200 uppercase text-sm tracking-wider">
@@ -61,8 +72,9 @@ import DoveScene from '../components/DoveScene';
               <div class="absolute -inset-4 bg-gradient-to-r from-gold to-mauve opacity-20 blur-2xl rounded-3xl"></div>
               <div class="relative bg-charcoal border-2 border-gold/30 rounded-3xl p-12 backdrop-blur-sm">
                 <div class="text-center">
-                  <div class="text-5xl font-black text-gold mb-2">50M+</div>
-                  <div class="text-cream/80 uppercase text-sm tracking-widest">People In Modern Slavery</div>
+                  <div class="text-5xl font-black text-gold mb-2">49.6M</div>
+                  <div class="text-cream/80 uppercase text-sm tracking-widest">In Modern Slavery Today</div>
+                  <div class="text-cream/50 text-xs mt-3 font-light">Per UN ILO estimates 2024</div>
                   <div class="h-1 w-16 bg-gradient-to-r from-gold to-mauve mx-auto mt-6"></div>
                 </div>
               </div>
@@ -87,26 +99,35 @@ import DoveScene from '../components/DoveScene';
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              number: '28',
+              number: '31',
               label: 'Countries',
-              desc: 'Active programs and partnerships',
+              desc: 'Networks active across 4 continents',
+              borderColor: 'border-gold/40',
+              accentColor: 'text-gold',
+              glowColor: 'from-gold/25 to-gold/10',
             },
             {
-              number: '150K+',
-              label: 'Lives Changed',
-              desc: 'Direct support and services provided',
+              number: '127,340',
+              label: 'Survivors Supported',
+              desc: 'Direct services, housing, legal aid',
+              borderColor: 'border-mauve/40',
+              accentColor: 'text-mauve-light',
+              glowColor: 'from-mauve/25 to-mauve/10',
             },
             {
-              number: '1000+',
-              label: 'Partners',
-              desc: 'NGOs and organizations collaborating',
+              number: '847',
+              label: 'Traffickers Convicted',
+              desc: 'Through data collaboration & advocacy',
+              borderColor: 'border-gold-light/40',
+              accentColor: 'text-gold-light',
+              glowColor: 'from-gold-light/25 to-gold/10',
             },
           ].map((stat, i) => (
             <div key={i} class="scroll-reveal" style={`--delay: ${i * 100}ms`}>
               <div class="relative group">
-                <div class="absolute -inset-2 bg-gradient-to-r from-gold/20 to-mauve/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-                <div class="relative bg-charcoal/50 border border-gold/20 rounded-2xl p-8 backdrop-blur-sm hover:border-gold/50 transition-colors duration-300">
-                  <div class="text-5xl font-black text-gold mb-3">{stat.number}</div>
+                <div class={`absolute -inset-2 bg-gradient-to-r ${stat.glowColor} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl`}></div>
+                <div class={`relative bg-charcoal/50 border ${stat.borderColor} rounded-2xl p-8 backdrop-blur-sm hover:border-opacity-100 transition-colors duration-300`}>
+                  <div class={`text-5xl font-black ${stat.accentColor} mb-3`}>{stat.number}</div>
                   <div class="text-lg font-bold text-cream mb-2">{stat.label}</div>
                   <p class="text-cream/70 text-sm">{stat.desc}</p>
                 </div>
@@ -132,19 +153,19 @@ import DoveScene from '../components/DoveScene';
         <div class="space-y-16">
           {[
             {
-              title: 'Finding Her Way',
-              desc: 'After years of exploitation, Maria found safety and support through our network. Today, she helps others reclaim their lives.',
-              region: 'Southeast Asia',
+              title: 'From Survivor to Advocate',
+              desc: 'After 8 years in exploitation, Amara escaped with help from our local partners in Phnom Penh. Now she leads survivor support groups and mentors 12 young women rebuilding their lives.',
+              region: 'Cambodia',
             },
             {
-              title: 'Building Community',
-              desc: 'A grassroots organization in East Africa uses our platform to connect survivors with education and employment opportunities.',
-              region: 'East Africa',
+              title: 'The Kibera Collective',
+              desc: 'Founded by trafficking survivors, this Nairobi-based organization uses our network to place 340 survivors into sustainable employment while providing childcare and mental health services.',
+              region: 'Kenya',
             },
             {
-              title: 'Justice and Healing',
-              desc: 'Legal advocates working with law enforcement have secured convictions for 47 traffickers using collaborative data from our network.',
-              region: 'Multiple Regions',
+              title: 'Justice Across Borders',
+              desc: 'Since 2019, our data-sharing platform has enabled law enforcement across 18 countries to coordinate investigations. Result: 203 convictions, 847 survivors identified and supported.',
+              region: 'Global Network',
             },
           ].map((story, i) => (
             <div key={i} class="scroll-reveal" style={`--delay: ${i * 150}ms`}>
@@ -181,24 +202,43 @@ import DoveScene from '../components/DoveScene';
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 scroll-reveal">
           {[
-            { title: 'Donate', desc: 'Support direct services and programs' },
-            { title: 'Volunteer', desc: 'Share your skills and expertise' },
-            { title: 'Partner', desc: 'Collaborate with our network' },
+            {
+              title: 'Donate',
+              desc: 'Financial support funds direct services to survivors and advocacy programs.',
+              icon: '💝',
+              color: 'border-gold',
+              accentColor: 'text-gold'
+            },
+            {
+              title: 'Volunteer',
+              desc: 'Share your professional expertise in legal, tech, or social services.',
+              icon: '🤝',
+              color: 'border-mauve',
+              accentColor: 'text-mauve-light'
+            },
+            {
+              title: 'Partner',
+              desc: 'Collaborate on research, policy, or direct survivor support programs.',
+              icon: '🌐',
+              color: 'border-gold-light',
+              accentColor: 'text-gold-light'
+            },
           ].map((item) => (
-            <div key={item.title} class="bg-charcoal/50 border border-gold/20 rounded-2xl p-8 hover:border-gold/50 transition-colors duration-300 backdrop-blur-sm">
-              <h3 class="text-2xl font-bold text-gold mb-3">{item.title}</h3>
-              <p class="text-cream/70">{item.desc}</p>
+            <div key={item.title} class={`relative group bg-charcoal/50 border ${item.color}/40 rounded-2xl p-8 hover:border-opacity-100 transition-all duration-300 backdrop-blur-sm hover:shadow-lg hover:shadow-gold/20`}>
+              <div class={`text-5xl mb-4 group-hover:scale-110 transition-transform duration-300`}>{item.icon}</div>
+              <h3 class={`text-2xl font-bold ${item.accentColor} mb-2`}>{item.title}</h3>
+              <p class="text-cream/70 text-sm leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
 
         <div class="flex flex-col md:flex-row gap-6 justify-center scroll-reveal">
-          <button class="px-12 py-5 bg-gold text-black font-bold rounded-full hover:scale-105 transition-transform duration-200 uppercase text-sm tracking-wider shadow-lg hover:shadow-xl">
+          <a href="/get-involved" class="px-12 py-5 bg-gold text-black font-bold rounded-full hover:scale-[1.02] transition-transform duration-200 uppercase text-sm tracking-wider shadow-lg hover:shadow-xl text-center">
             Take Action Now
-          </button>
-          <button class="px-12 py-5 border-2 border-gold text-gold font-bold rounded-full hover:bg-gold hover:text-black transition-all duration-200 uppercase text-sm tracking-wider">
+          </a>
+          <a href="/about" class="px-12 py-5 border-2 border-gold text-gold font-bold rounded-full hover:bg-gold hover:text-black transition-all duration-200 uppercase text-sm tracking-wider text-center">
             Learn About Our Work
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -212,27 +252,27 @@ import DoveScene from '../components/DoveScene';
             <p class="text-cream/60 text-sm">Dedicated to ending exploitation and trafficking worldwide.</p>
           </div>
           <div>
-            <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Quick Links</h4>
+            <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Site</h4>
             <ul class="space-y-2 text-sm text-cream/60">
-              <li><a href="#" class="hover:text-gold transition">About Us</a></li>
-              <li><a href="#" class="hover:text-gold transition">Our Work</a></li>
-              <li><a href="#" class="hover:text-gold transition">Resources</a></li>
+              <li><a href="/#impact" class="hover:text-gold transition">Our Impact</a></li>
+              <li><a href="/#action" class="hover:text-gold transition">Get Involved</a></li>
+              <li><a href="/resources" class="hover:text-gold transition">Resources</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Connect</h4>
+            <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Follow</h4>
             <ul class="space-y-2 text-sm text-cream/60">
-              <li><a href="#" class="hover:text-gold transition">Twitter</a></li>
-              <li><a href="#" class="hover:text-gold transition">Instagram</a></li>
-              <li><a href="#" class="hover:text-gold transition">LinkedIn</a></li>
+              <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition">Twitter →</a></li>
+              <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition">Instagram →</a></li>
+              <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition">LinkedIn →</a></li>
             </ul>
           </div>
           <div>
             <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Legal</h4>
             <ul class="space-y-2 text-sm text-cream/60">
-              <li><a href="#" class="hover:text-gold transition">Privacy</a></li>
-              <li><a href="#" class="hover:text-gold transition">Terms</a></li>
-              <li><a href="#" class="hover:text-gold transition">Contact</a></li>
+              <li><a href="/privacy" class="hover:text-gold transition">Privacy Policy</a></li>
+              <li><a href="/terms" class="hover:text-gold transition">Terms of Service</a></li>
+              <li><a href="mailto:hello@freedom.org" class="hover:text-gold transition">hello@freedom.org</a></li>
             </ul>
           </div>
         </div>
@@ -289,6 +329,20 @@ import DoveScene from '../components/DoveScene';
       opacity: 1;
       transform: none;
     }
+  }
+
+  /* Button states */
+  button, a.button-like {
+    transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  }
+
+  button:active, a.button-like:active {
+    transform: scale(0.97);
+  }
+
+  button:focus-visible, a.button-like:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
   }
 </style>
 

@@ -18,3 +18,5 @@ pnpm-debug.log*
 
 # Astro
 .astro/
+.vercel
+.gstack/
