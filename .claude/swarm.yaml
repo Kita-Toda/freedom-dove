@@ -1,0 +1,208 @@
+# Ruflo Swarm Configuration for Freedom/Unchained Project
+# Multi-agent task coordination and specialized workflows
+
+version: 1.0
+project: freedom-dove
+description: Humanitarian platform for ending human trafficking
+
+# Swarm topology - how agents coordinate
+topology:
+  type: hierarchical
+  coordinator: main
+  workers:
+    - designer
+    - developer
+    - tester
+    - content
+
+# Agent roles and capabilities
+agents:
+  main:
+    role: coordinator
+    capabilities:
+      - task planning
+      - progress tracking
+      - agent delegation
+    description: Orchestrates work across the swarm, manages dependencies
+
+  designer:
+    role: ui/ux specialist
+    files:
+      - src/components/**
+      - src/pages/**
+      - src/layouts/**
+    capabilities:
+      - component design
+      - visual consistency
+      - responsive layout
+      - 21st dev publishing
+    description: Handles UI components, design system, visual polish
+
+  developer:
+    role: implementation specialist
+    files:
+      - src/**
+      - astro.config.mjs
+      - tailwind.config.cjs
+      - package.json
+    capabilities:
+      - feature implementation
+      - component development
+      - integration
+      - performance optimization
+    description: Implements features, components, and technical solutions
+
+  tester:
+    role: qa and verification
+    capabilities:
+      - functional testing
+      - visual testing
+      - accessibility audit
+      - responsive design verification
+      - console error checking
+    tools:
+      - browse
+      - lighthouse
+      - axe-accessibility
+    description: Verifies functionality, accessibility, and user experience
+
+  content:
+    role: narrative and messaging
+    files:
+      - src/pages/**
+      - README.md
+      - ARCHITECTURE.md
+    capabilities:
+      - copywriting
+      - storytelling
+      - messaging consistency
+      - SEO optimization
+      - documentation
+    description: Ensures compelling, consistent messaging and documentation
+
+# Task patterns - common workflows
+workflows:
+  new_feature:
+    steps:
+      - coordinator: analyze requirements and create task breakdown
+      - designer: create component design and props interface
+      - developer: implement component and integration
+      - tester: verify functionality and accessibility
+      - content: ensure messaging is clear and on-brand
+    parallel:
+      - designer
+      - developer
+    sequential: true
+
+  component_improvement:
+    steps:
+      - designer: audit design consistency
+      - developer: refactor for performance and maintainability
+      - tester: verify no visual/functional regression
+    parallel:
+      - designer
+      - developer
+
+  content_refresh:
+    steps:
+      - content: review and improve messaging
+      - developer: update pages/components
+      - tester: verify changes render correctly
+      - designer: check visual consistency
+    sequential: true
+
+  publish_to_21st:
+    steps:
+      - developer: prepare component files
+      - designer: create demo and preview
+      - content: write component documentation
+      - coordinator: handle authentication and publishing
+    sequential: true
+
+  accessibility_audit:
+    steps:
+      - tester: run automated WCAG checks
+      - designer: review visual contrast and spacing
+      - developer: fix semantic HTML and ARIA
+      - tester: verify with screen reader testing
+    sequential: true
+
+  performance_optimization:
+    steps:
+      - developer: profile page load and bundle size
+      - developer: optimize images and code
+      - tester: measure before/after metrics
+      - coordinator: report findings
+    sequential: true
+
+# Active tasks and priorities
+tasks:
+  - id: components-publish
+    workflow: publish_to_21st
+    status: in_progress
+    components:
+      - StatCard
+      - ActionCard
+      - StoryCard
+    assigned_to: designer, developer, content
+    priority: high
+    description: Publish 3 components to 21st dev registry
+
+  - id: improve-seo
+    workflow: content_refresh
+    status: backlog
+    assigned_to: content
+    priority: medium
+    description: Add meta tags, OG images, structured data
+
+  - id: add-email-capture
+    workflow: new_feature
+    status: backlog
+    assigned_to: developer, designer
+    priority: medium
+    description: Add newsletter signup or contact form
+
+  - id: accessibility-audit
+    workflow: accessibility_audit
+    status: backlog
+    assigned_to: tester, developer, designer
+    priority: high
+    description: Full WCAG AA compliance audit
+
+  - id: mobile-optimization
+    workflow: component_improvement
+    status: backlog
+    assigned_to: designer, developer, tester
+    priority: medium
+    description: Optimize dove scene and layouts for mobile
+
+# Communication channels (implied)
+communication:
+  coordination: claude code conversation
+  progress: git commits and branches
+  artifacts: shared via 21st dev registry
+  documentation: README files and ARCHITECTURE.md
+
+# Success metrics
+success_criteria:
+  - components published to 21st dev with full documentation
+  - no console errors or accessibility violations
+  - responsive layout works on mobile/tablet/desktop
+  - page load time < 3s (Lighthouse green)
+  - all internal links functional
+  - 95+ Lighthouse score
+
+# Known constraints
+constraints:
+  - Astro framework (static SSG with React islands)
+  - Tailwind CSS only (no external component libraries)
+  - Three.js and GSAP already in stack
+  - Premium design aesthetic must be maintained
+  - Humanitarian mission focus
+
+# Dependencies
+dependencies:
+  - ruflo-core
+  - ruflo-testgen
+  - ruflo-browser
+  - ruflo-security-audit
