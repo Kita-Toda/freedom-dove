@@ -208,9 +208,17 @@ All components follow the **Unchained design system**:
 
 ---
 
-## Installation & Publishing
+## Installation & Usage
 
-### Local Installation
+### Two Paths: Local Development vs Registry
+
+**See [USAGE.md](./USAGE.md) for detailed guide on:**
+- ✅ Using components locally in Unchained (development)
+- ✅ Installing components in other projects (registry)
+- ✅ Publishing updates to 21st dev
+- ✅ Real-world workflow examples
+
+### Local Installation (Unchained Project)
 
 Components are in `src/components/ui/`. Import directly:
 
@@ -220,7 +228,9 @@ import ActionCard from '@/components/ui/ActionCard';
 import StoryCard from '@/components/ui/StoryCard';
 ```
 
-### Publishing to 21st dev
+**Use this approach:** When developing/improving Unchained website
+
+### Publishing to 21st dev Registry
 
 ```bash
 # Publish individual components
@@ -236,11 +246,16 @@ npx @21st-dev/registry publish ./src/components/ui/StatCard.tsx \
 ### Installing in Other Projects
 
 ```bash
-# From team registry
+# From team registry (after publishing)
 npx @21st-dev/registry add @yourteam/stat-card
 npx @21st-dev/registry add @yourteam/action-card
 npx @21st-dev/registry add @yourteam/story-card
+
+# Then import in your project
+import StatCard from '@yourteam/stat-card';
 ```
+
+**Use this approach:** When using components in OTHER projects (not Unchained)
 
 ---
 
