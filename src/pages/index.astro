@@ -1,0 +1,333 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DoveScene from '../components/DoveScene';
+---
+
+<Layout title="Freedom — Humanitarian Platform">
+  <div class="relative z-10">
+    <!-- Hero Section with Dove -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+      <DoveScene client:load />
+
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+        <div class="animate-fade-in-up mb-6">
+          <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-4">
+            Humanitarian Initiative
+          </div>
+          <h1 class="text-8xl md:text-9xl font-black text-gold leading-none mb-6" style="letter-spacing: -3px;">
+            FREEDOM
+          </h1>
+          <p class="text-xl text-cream font-light tracking-widest max-w-2xl mx-auto">
+            For the forgotten. For the voiceless. For a world without chains.
+          </p>
+        </div>
+      </div>
+
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 pointer-events-none">
+        <div class="animate-bounce text-gold opacity-60">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="min-h-screen py-32 px-4 md:px-12 bg-gradient-to-b from-black to-charcoal relative z-20">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div class="scroll-reveal">
+            <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6">
+              Our Mission
+            </div>
+            <h2 class="text-6xl md:text-7xl font-black text-cream leading-tight mb-8" style="letter-spacing: -2px;">
+              Breaking Chains
+            </h2>
+            <p class="text-xl text-cream/80 leading-relaxed mb-8 max-w-xl">
+              We believe in the fundamental right to freedom for all human beings. Our platform connects advocates, organizations, and communities working to end exploitation and trafficking.
+            </p>
+            <div class="flex gap-4">
+              <a href="#action" class="px-8 py-4 bg-gold text-black font-bold rounded-full hover:scale-105 transition-transform duration-200 uppercase text-sm tracking-wider">
+                Get Involved
+              </a>
+              <a href="#impact" class="px-8 py-4 border-2 border-gold text-gold font-bold rounded-full hover:bg-gold hover:text-black transition-all duration-200 uppercase text-sm tracking-wider">
+                Learn More
+              </a>
+            </div>
+          </div>
+
+          <div class="scroll-reveal delay-200">
+            <div class="relative">
+              <div class="absolute -inset-4 bg-gradient-to-r from-gold to-mauve opacity-20 blur-2xl rounded-3xl"></div>
+              <div class="relative bg-charcoal border-2 border-gold/30 rounded-3xl p-12 backdrop-blur-sm">
+                <div class="text-center">
+                  <div class="text-5xl font-black text-gold mb-2">50M+</div>
+                  <div class="text-cream/80 uppercase text-sm tracking-widest">People In Modern Slavery</div>
+                  <div class="h-1 w-16 bg-gradient-to-r from-gold to-mauve mx-auto mt-6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="min-h-screen py-32 px-4 md:px-12 relative z-20">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-20">
+          <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6 scroll-reveal">
+            Global Impact
+          </div>
+          <h2 class="text-6xl md:text-7xl font-black text-cream leading-tight scroll-reveal" style="letter-spacing: -2px;">
+            Our Work Across Continents
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              number: '28',
+              label: 'Countries',
+              desc: 'Active programs and partnerships',
+            },
+            {
+              number: '150K+',
+              label: 'Lives Changed',
+              desc: 'Direct support and services provided',
+            },
+            {
+              number: '1000+',
+              label: 'Partners',
+              desc: 'NGOs and organizations collaborating',
+            },
+          ].map((stat, i) => (
+            <div key={i} class="scroll-reveal" style={`--delay: ${i * 100}ms`}>
+              <div class="relative group">
+                <div class="absolute -inset-2 bg-gradient-to-r from-gold/20 to-mauve/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
+                <div class="relative bg-charcoal/50 border border-gold/20 rounded-2xl p-8 backdrop-blur-sm hover:border-gold/50 transition-colors duration-300">
+                  <div class="text-5xl font-black text-gold mb-3">{stat.number}</div>
+                  <div class="text-lg font-bold text-cream mb-2">{stat.label}</div>
+                  <p class="text-cream/70 text-sm">{stat.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Stories Section -->
+    <section class="min-h-screen py-32 px-4 md:px-12 bg-gradient-to-b from-charcoal to-black relative z-20">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-20">
+          <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6 scroll-reveal">
+            Real Stories
+          </div>
+          <h2 class="text-6xl md:text-7xl font-black text-cream leading-tight scroll-reveal" style="letter-spacing: -2px;">
+            Voices of Hope
+          </h2>
+        </div>
+
+        <div class="space-y-16">
+          {[
+            {
+              title: 'Finding Her Way',
+              desc: 'After years of exploitation, Maria found safety and support through our network. Today, she helps others reclaim their lives.',
+              region: 'Southeast Asia',
+            },
+            {
+              title: 'Building Community',
+              desc: 'A grassroots organization in East Africa uses our platform to connect survivors with education and employment opportunities.',
+              region: 'East Africa',
+            },
+            {
+              title: 'Justice and Healing',
+              desc: 'Legal advocates working with law enforcement have secured convictions for 47 traffickers using collaborative data from our network.',
+              region: 'Multiple Regions',
+            },
+          ].map((story, i) => (
+            <div key={i} class="scroll-reveal" style={`--delay: ${i * 150}ms`}>
+              <div class="group relative">
+                <div class="absolute -inset-4 bg-gradient-to-r from-gold/10 to-mauve/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
+                <div class="relative bg-charcoal border border-gold/20 rounded-2xl p-8 md:p-12 group-hover:border-gold/50 transition-colors duration-300">
+                  <div class="flex items-start justify-between mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gold">{story.title}</h3>
+                    <span class="text-cream/60 text-sm uppercase tracking-wider font-semibold">{story.region}</span>
+                  </div>
+                  <p class="text-lg text-cream/80 leading-relaxed">{story.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section id="action" class="min-h-screen py-32 px-4 md:px-12 flex items-center justify-center relative z-20">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="scroll-reveal mb-8">
+          <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6">
+            Join the Movement
+          </div>
+          <h2 class="text-7xl md:text-8xl font-black text-cream leading-tight mb-8" style="letter-spacing: -2px;">
+            Every Voice Matters
+          </h2>
+          <p class="text-xl text-cream/80 max-w-2xl mx-auto mb-12">
+            Whether you're an advocate, survivor, organization, or concerned citizen—there's a role for you in this movement toward universal freedom.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 scroll-reveal">
+          {[
+            { title: 'Donate', desc: 'Support direct services and programs' },
+            { title: 'Volunteer', desc: 'Share your skills and expertise' },
+            { title: 'Partner', desc: 'Collaborate with our network' },
+          ].map((item) => (
+            <div key={item.title} class="bg-charcoal/50 border border-gold/20 rounded-2xl p-8 hover:border-gold/50 transition-colors duration-300 backdrop-blur-sm">
+              <h3 class="text-2xl font-bold text-gold mb-3">{item.title}</h3>
+              <p class="text-cream/70">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-6 justify-center scroll-reveal">
+          <button class="px-12 py-5 bg-gold text-black font-bold rounded-full hover:scale-105 transition-transform duration-200 uppercase text-sm tracking-wider shadow-lg hover:shadow-xl">
+            Take Action Now
+          </button>
+          <button class="px-12 py-5 border-2 border-gold text-gold font-bold rounded-full hover:bg-gold hover:text-black transition-all duration-200 uppercase text-sm tracking-wider">
+            Learn About Our Work
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gold/20 py-16 px-4 relative z-20">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <h3 class="text-gold font-bold mb-4 uppercase tracking-wider">Freedom</h3>
+            <p class="text-cream/60 text-sm">Dedicated to ending exploitation and trafficking worldwide.</p>
+          </div>
+          <div>
+            <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Quick Links</h4>
+            <ul class="space-y-2 text-sm text-cream/60">
+              <li><a href="#" class="hover:text-gold transition">About Us</a></li>
+              <li><a href="#" class="hover:text-gold transition">Our Work</a></li>
+              <li><a href="#" class="hover:text-gold transition">Resources</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Connect</h4>
+            <ul class="space-y-2 text-sm text-cream/60">
+              <li><a href="#" class="hover:text-gold transition">Twitter</a></li>
+              <li><a href="#" class="hover:text-gold transition">Instagram</a></li>
+              <li><a href="#" class="hover:text-gold transition">LinkedIn</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-cream font-bold mb-4 uppercase tracking-wider text-xs">Legal</h4>
+            <ul class="space-y-2 text-sm text-cream/60">
+              <li><a href="#" class="hover:text-gold transition">Privacy</a></li>
+              <li><a href="#" class="hover:text-gold transition">Terms</a></li>
+              <li><a href="#" class="hover:text-gold transition">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gold/20 pt-8 text-center text-cream/60 text-sm">
+          <p>&copy; 2026 Freedom. All rights reserved. Built with purpose.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+
+  .animate-bounce {
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+    --delay: 0ms;
+    animation-delay: var(--delay);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-reveal,
+    .animate-fade-in-up,
+    .animate-bounce {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Scroll-triggered reveals
+  document.querySelectorAll('.scroll-reveal').forEach((element) => {
+    gsap.to(element, {
+      scrollTrigger: {
+        trigger: element,
+        start: 'top 80%',
+        end: 'top 20%',
+        toggleActions: 'play none none reverse',
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'cubic-bezier(0.23, 1, 0.32, 1)',
+    });
+  });
+
+  // Parallax effect on sections
+  gsap.utils.toArray<HTMLElement>('section').forEach((section) => {
+    gsap.to(section, {
+      scrollTrigger: {
+        trigger: section,
+        start: 'top center',
+        end: 'bottom center',
+        markers: false,
+      },
+      y: (i, target) => {
+        return window.innerHeight * 0.05;
+      },
+      duration: 1,
+      ease: 'power1.inOut',
+    });
+  });
+</script>

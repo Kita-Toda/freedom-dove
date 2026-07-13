@@ -1,0 +1,28 @@
+{
+  "name": "freedom-dove",
+  "version": "1.0.0",
+  "description": "Premium humanitarian platform about freedom with interactive 3D dove",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.2.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.160.0",
+    "gsap": "^3.12.2",
+    "tailwindcss": "^3.4.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^3.1.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@types/three": "^0.160.0"
+  }
+}

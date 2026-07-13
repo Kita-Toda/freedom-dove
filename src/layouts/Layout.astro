@@ -1,0 +1,89 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Freedom — A humanitarian platform dedicated to liberation and hope" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;900&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --black: #0a0a0a;
+    --charcoal: #1a1a1a;
+    --gold: #d4a574;
+    --gold-light: #e8c9a0;
+    --mauve: #8b6f8e;
+    --mauve-light: #b8a0b8;
+    --cream: #f5f1e8;
+    --gray-dark: #3a3a3a;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+    color: var(--cream);
+    font-family: 'Geist', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Film-grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.02" /></svg>');
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    letter-spacing: -2px;
+  }
+
+  a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 200ms ease-out;
+  }
+
+  a:hover {
+    color: var(--gold-light);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>
