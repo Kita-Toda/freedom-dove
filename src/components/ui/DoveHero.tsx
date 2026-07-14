@@ -1,17 +1,20 @@
 import React from 'react';
 import DoveScene from '../DoveScene';
+import { BeamsBackground } from './BeamsBackground';
 
 interface DoveHeroProps {
   missionText?: string;
   showScrollPrompt?: boolean;
+  beamsIntensity?: 'subtle' | 'medium' | 'strong';
 }
 
 export default function DoveHero({
   missionText = "For The Forgotten. For The Voiceless. For A World Without Chains.",
   showScrollPrompt = true,
+  beamsIntensity = 'medium',
 }: DoveHeroProps) {
   return (
-    <div className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-black via-black to-charcoal">
+    <BeamsBackground intensity={beamsIntensity} className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
       {/* Background Imagery */}
       <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent"></div>
@@ -49,6 +52,6 @@ export default function DoveHero({
           </div>
         </div>
       )}
-    </div>
+    </BeamsBackground>
   );
 }
