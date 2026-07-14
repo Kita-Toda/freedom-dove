@@ -15,8 +15,14 @@ export default function DoveHero({
       {/* Background Imagery */}
       <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent"></div>
-        <div className="absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(212,165,116,0.15) 0%, transparent 70%)"></div>
-        <div className="absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(139,111,142,0.15) 0%, transparent 70%)"></div>
+        <div
+          className="absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl"
+          style={{background: 'radial-gradient(circle, rgba(212,165,116,0.15) 0%, transparent 70%)'}}
+        ></div>
+        <div
+          className="absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-3xl"
+          style={{background: 'radial-gradient(circle, rgba(139,111,142,0.15) 0%, transparent 70%)'}}
+        ></div>
       </div>
 
       {/* Dove Scene */}
