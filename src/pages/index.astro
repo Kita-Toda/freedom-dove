@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import DoveScene from '../components/DoveScene';
+import DoveHero from '../components/ui/DoveHero';
 ---
 
 <Layout title="Unchained — End Human Trafficking">
@@ -9,39 +9,8 @@ import DoveScene from '../components/DoveScene';
   </a>
 
   <div id="main" class="relative z-10">
-    <!-- Hero Section with Dove -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-black to-charcoal">
-      <!-- Background imagery (subtle, blurred) -->
-      <div class="absolute inset-0 opacity-30 pointer-events-none">
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent"></div>
-        <div class="absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(212,165,116,0.15) 0%, transparent 70%)"></div>
-        <div class="absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(139,111,142,0.15) 0%, transparent 70%)"></div>
-      </div>
-
-      <DoveScene client:load />
-
-      <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-        <div class="animate-fade-in-up mb-6">
-          <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-4">
-            Humanitarian Initiative
-          </div>
-          <h1 class="text-8xl md:text-9xl font-black text-gold leading-none mb-6" style="letter-spacing: -3px;">
-            UNCHAINED
-          </h1>
-          <p class="text-xl text-cream font-light tracking-widest max-w-2xl mx-auto">
-            For The Forgotten. For The Voiceless. For A World Without Chains.
-          </p>
-        </div>
-      </div>
-
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 pointer-events-none">
-        <div class="animate-bounce text-gold opacity-60">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
-        </div>
-      </div>
-    </section>
+    <!-- Hero Section with Dove Component -->
+    <DoveHero client:load missionText="For The Forgotten. For The Voiceless. For A World Without Chains." />
 
     <!-- Mission Section -->
     <section class="min-h-screen py-32 px-4 md:px-12 bg-gradient-to-b from-black to-charcoal relative z-20">
