@@ -120,40 +120,46 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
     rightEye.castShadow = true;
     doveGroup.add(rightEye);
 
-    // Refined wings using LatheGeometry for smooth curves
+    // Refined wings with realistic bird wing geometry
     const wingMaterial = new THREE.MeshStandardMaterial({
       color: 0xf5f1e8,
-      metalness: 0.03,
-      roughness: 0.7,
+      metalness: 0.02,
+      roughness: 0.65,
       side: THREE.DoubleSide,
+      flatShading: false,
     });
 
-    // Wing shape profile
+    // Realistic bird wing shape profile - tapering to a point
     const wingPoints = [
       new THREE.Vector2(0, 0),
-      new THREE.Vector2(0.15, 0.2),
-      new THREE.Vector2(0.35, 0.5),
-      new THREE.Vector2(0.45, 0.8),
-      new THREE.Vector2(0.42, 1.1),
-      new THREE.Vector2(0.35, 1.3),
-      new THREE.Vector2(0.15, 1.2),
-      new THREE.Vector2(0.05, 0.8),
+      new THREE.Vector2(0.12, 0.15),
+      new THREE.Vector2(0.28, 0.4),
+      new THREE.Vector2(0.42, 0.7),
+      new THREE.Vector2(0.48, 1.0),
+      new THREE.Vector2(0.45, 1.3),
+      new THREE.Vector2(0.38, 1.55),
+      new THREE.Vector2(0.28, 1.75),
+      new THREE.Vector2(0.15, 1.85),
+      new THREE.Vector2(0.05, 1.9),
+      new THREE.Vector2(0, 1.92),
     ];
 
-    const leftWingGeometry = new THREE.LatheGeometry(wingPoints, 12);
+    const leftWingGeometry = new THREE.LatheGeometry(wingPoints, 16);
     const leftWing = new THREE.Mesh(leftWingGeometry, wingMaterial);
-    leftWing.position.set(-0.9, 0.1, -0.2);
-    leftWing.scale.set(0.8, 1, 0.5);
-    leftWing.rotation.z = 0.4;
+    leftWing.position.set(-0.85, 0.15, -0.15);
+    leftWing.scale.set(0.9, 1.1, 0.6);
+    leftWing.rotation.z = 0.35;
+    leftWing.rotation.y = 0.15;
     leftWing.castShadow = true;
     leftWing.receiveShadow = true;
     doveGroup.add(leftWing);
 
-    const rightWingGeometry = new THREE.LatheGeometry(wingPoints, 12);
+    const rightWingGeometry = new THREE.LatheGeometry(wingPoints, 16);
     const rightWing = new THREE.Mesh(rightWingGeometry, wingMaterial);
-    rightWing.position.set(0.9, 0.1, -0.2);
-    rightWing.scale.set(-0.8, 1, 0.5);
-    rightWing.rotation.z = -0.4;
+    rightWing.position.set(0.85, 0.15, -0.15);
+    rightWing.scale.set(-0.9, 1.1, 0.6);
+    rightWing.rotation.z = -0.35;
+    rightWing.rotation.y = -0.15;
     rightWing.castShadow = true;
     rightWing.receiveShadow = true;
     doveGroup.add(rightWing);
