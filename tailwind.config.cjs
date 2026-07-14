@@ -45,6 +45,12 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
+      letterSpacing: {
+        'button': '0.75px',
+        'label': '0.5px',
+        'caption': '0.5px',
+        'heading': '-0.5px',
+      },
     },
   },
   plugins: [],
