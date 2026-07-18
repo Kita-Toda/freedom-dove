@@ -68,7 +68,7 @@ Loaded from Google Fonts in `Layout.astro`.
 |---|---|---|
 | **Playfair Display** (serif) | 600/700/900 | All headings (`h1`–`h6`) |
 | **Geist** (sans) | 400–900 | Body, labels, buttons, UI |
-| **Caveat** (script) | 700 | Handwritten accent — **currently loaded but unused** |
+| ~~Caveat (script)~~ | — | Removed — was loaded but never used (dropped from font load + config) |
 
 **Heading rule** (global in `Layout.astro`): Playfair Display, weight `900`,
 `letter-spacing: -2px`. Pages also inline `style="letter-spacing: -2px"` on
@@ -319,8 +319,9 @@ shared layout; label or hide emoji.
   (`M15 19l-7 7…`) for a "Back to Home" link (wrong semantics); the dove hero's
   scroll cue legitimately uses a down arrow, and `get-involved.astro` uses a
   correct **left** arrow. Standardize on the left arrow for "back."
-- Emoji as primary iconography (💝 🤝 🌐 🛡️ ⚖️ 📊 🌍 💫) renders differently on
-  every OS and reads less premium than the rest of the system.
+- ~~Emoji as primary iconography (💝 🤝 🌐 🛡️ ⚖️ 📊 🌍 💫) renders differently on
+  every OS and reads less premium than the rest of the system.~~ **Fixed** —
+  replaced with a labeled `Icon.astro` SVG set (see punch-list #7).
 
 **What 10 looks like:** all assets resolve in production, real gallery imagery,
 one consistent icon set (labeled SVG), no dev-only paths.
@@ -338,12 +339,12 @@ Ordered by severity. Each is an independent follow-up.
 | 1 | ~~Critical~~ ✅ Fixed | No persistent nav / wayfinding | `Nav.astro` in `Layout.astro` | Done — shared nav on all pages, `aria-current` active state, mobile menu, scroll-solid, global skip link + `<main>` landmark |
 | 2 | ~~High~~ ✅ Fixed | Broken image paths (`/src/images/...`) | `founder.astro` | Done — ESM-imported, now served from `/_astro/` |
 | 3 | ~~High~~ ✅ Fixed | Title-case body copy | all 5 `pages/*.astro` | Done — paragraphs/descriptions rewritten to sentence case; headings, labels, eyebrows kept as-is |
-| 4 | Medium | No WebGL/hero fallback | `DoveHero.tsx`, `DoveScene.tsx` | Poster image / gradient fallback layer |
+| 4 | ~~Medium~~ ✅ Fixed | No WebGL/hero fallback | `DoveScene.tsx` | Done — WebGL capability probe + try/catch; on failure renders an on-brand gold-glow gradient instead of a blank/throwing hero |
 | 5 | ~~Medium~~ ✅ Fixed | Placeholder stock gallery (duplicated) | `gallery.astro` | Done — repurposed to a campaign/events gallery using 8 distinct real Unchained Gala posters (bundled locally), masonry layout, dead sublinks removed |
 | 6 | ~~Medium~~ ✅ Fixed | Back-link icon wrong/inconsistent | `about.astro`, `get-involved.astro` | Done — redundant "Back to Home" links removed (nav logo covers it) |
-| 7 | Medium | Emoji iconography | index/about/founder/get-involved | Labeled SVG icon set |
-| 8 | Low | Verify small gold-text contrast (AA) | global | Measure; darken surface or lighten gold for small text |
-| 9 | Low | `Caveat` loaded but unused | `Layout.astro` font link | Use intentionally (quotes) or drop from load |
+| 7 | ~~Medium~~ ✅ Fixed | Emoji iconography | index/about/founder/get-involved | Done — new `Icon.astro` labeled SVG set (Heroicons geometry); all card emoji replaced, accent-colored, visually verified |
+| 8 | ~~Low~~ ✅ Verified | Small gold-text contrast (AA) | global | Measured — gold on charcoal 7.82:1, gold@80% eyebrow labels 5.45:1, all above AA 4.5. No change needed |
+| 9 | ~~Low~~ ✅ Fixed | `Caveat` loaded but unused | `Layout.astro`, `tailwind.config.cjs` | Done — dropped from the font load and the Tailwind config (perf) |
 
 ---
 

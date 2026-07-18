@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import MediaCard from '../components/ui/MediaCard';
+import Icon from '../components/Icon.astro';
 import soniaPortrait from '../images/Sonia_Qutami1.jpg';
 import soniaSpeaking from '../images/Sonia_Qutami2.jpg';
 ---
@@ -112,25 +113,25 @@ import soniaSpeaking from '../images/Sonia_Qutami2.jpg';
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div class="group relative bg-charcoal/50 border-2 border-gold/30 rounded-2xl p-8 hover:border-gold/60 hover:bg-charcoal/70 transition-all duration-300">
-          <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🛡️</div>
+          <Icon name="shield" class="w-12 h-12 mb-6 text-gold group-hover:scale-110 transition-transform duration-300" />
           <h3 class="text-xl font-bold text-gold mb-4">Survivor Protection</h3>
           <p class="text-cream/70">Direct services, safe housing, and comprehensive support</p>
         </div>
 
         <div class="group relative bg-charcoal/50 border-2 border-mauve/30 rounded-2xl p-8 hover:border-mauve/60 hover:bg-charcoal/70 transition-all duration-300">
-          <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">⚖️</div>
+          <Icon name="scales" class="w-12 h-12 mb-6 text-mauve-light group-hover:scale-110 transition-transform duration-300" />
           <h3 class="text-xl font-bold text-mauve-light mb-4">Justice & Accountability</h3>
           <p class="text-cream/70">Law enforcement coordination, prosecutions, convictions</p>
         </div>
 
         <div class="group relative bg-charcoal/50 border-2 border-gold-light/30 rounded-2xl p-8 hover:border-gold-light/60 hover:bg-charcoal/70 transition-all duration-300">
-          <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">📊</div>
+          <Icon name="chart" class="w-12 h-12 mb-6 text-gold-light group-hover:scale-110 transition-transform duration-300" />
           <h3 class="text-xl font-bold text-gold-light mb-4">Data & Intelligence</h3>
           <p class="text-cream/70">Research-driven insights, pattern mapping, strategic planning</p>
         </div>
 
         <div class="group relative bg-charcoal/50 border-2 border-cream/30 rounded-2xl p-8 hover:border-cream/60 hover:bg-charcoal/70 transition-all duration-300">
-          <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🌍</div>
+          <Icon name="globe" class="w-12 h-12 mb-6 text-cream group-hover:scale-110 transition-transform duration-300" />
           <h3 class="text-xl font-bold text-cream mb-4">Global Advocacy</h3>
           <p class="text-cream/70">Policy change, international partnerships, systemic reform</p>
         </div>
@@ -140,7 +141,7 @@ import soniaSpeaking from '../images/Sonia_Qutami2.jpg';
     <!-- Vision Statement -->
     <section class="mb-32 max-w-4xl mx-auto">
       <div class="relative bg-gradient-to-br from-charcoal/50 to-black/50 border-2 border-gold/30 rounded-3xl p-16 text-center">
-        <div class="text-gold text-5xl mb-8">💫</div>
+        <Icon name="sparkles" class="w-12 h-12 text-gold mb-8 mx-auto" />
         <h2 class="text-4xl font-bold text-cream mb-8" style="letter-spacing: -1px;">Sonia's Vision</h2>
         <p class="text-xl text-cream/80 leading-relaxed mb-0">
           "A world where freedom is not a privilege but a universal right. Where survivors are heard, supported, and empowered. Where traffickers face justice across every border. Where governments, organizations, and citizens stand united against exploitation. This is the Unchained future we're building together."
