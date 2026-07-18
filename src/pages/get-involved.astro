@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 ---
 
 <Layout title="Get Involved — Unchained">
@@ -7,13 +8,6 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-4xl mx-auto">
       <!-- Header -->
       <div class="mb-20">
-        <a href="/" class="inline-flex items-center text-gold hover:text-gold-light transition mb-8">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-          </svg>
-          Back to Home
-        </a>
-
         <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6">
           Take Action
         </div>
@@ -21,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
           Get Involved
         </h1>
         <p class="text-xl text-cream/80 max-w-2xl">
-          There Are Many Ways To Join The Movement For Freedom. Whether You Have Resources, Expertise, Or Passion—We Need You.
+          There are many ways to join the movement for freedom. Whether you have resources, expertise, or passion—we need you.
         </p>
       </div>
 
@@ -30,10 +24,10 @@ import Layout from '../layouts/Layout.astro';
         <!-- Donate -->
         <div class="group">
           <div class="relative bg-charcoal/50 border border-gold/30 rounded-3xl p-12 hover:border-gold/60 transition-colors duration-300 h-full">
-            <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">💝</div>
+            <Icon name="donate" class="w-12 h-12 mb-6 text-gold group-hover:scale-110 transition-transform duration-300" />
             <h2 class="text-3xl font-bold text-gold mb-4">Donate</h2>
             <p class="text-cream/80 leading-relaxed mb-8">
-              Every Dollar Funds Direct Survivor Services: Safe Housing, Counseling, Legal Aid, And Vocational Training. 100% transparency—see exactly where your support goes.
+              Every dollar funds direct survivor services: safe housing, counseling, legal aid, and vocational training. 100% transparency—see exactly where your support goes.
             </p>
             <ul class="space-y-3 text-cream/70 text-sm mb-8">
               <li class="flex items-start">
@@ -58,7 +52,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Volunteer -->
         <div class="group">
           <div class="relative bg-charcoal/50 border border-mauve/30 rounded-3xl p-12 hover:border-mauve/60 transition-colors duration-300 h-full">
-            <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🤝</div>
+            <Icon name="users" class="w-12 h-12 mb-6 text-mauve-light group-hover:scale-110 transition-transform duration-300" />
             <h2 class="text-3xl font-bold text-mauve-light mb-4">Volunteer</h2>
             <p class="text-cream/80 leading-relaxed mb-8">
               Contribute your professional skills: legal expertise, software development, mental health counseling, job placement services, or grant writing.
@@ -86,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Partner -->
         <div class="group">
           <div class="relative bg-charcoal/50 border border-gold-light/30 rounded-3xl p-12 hover:border-gold-light/60 transition-colors duration-300 h-full">
-            <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🌐</div>
+            <Icon name="globe" class="w-12 h-12 mb-6 text-gold-light group-hover:scale-110 transition-transform duration-300" />
             <h2 class="text-3xl font-bold text-gold-light mb-4">Partner With Us</h2>
             <p class="text-cream/80 leading-relaxed mb-8">
               Organizations, governments, and corporations partner with us on research, policy advocacy, survivor support programs, and supply chain transparency initiatives.
@@ -114,7 +108,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Advocate -->
         <div class="group">
           <div class="relative bg-charcoal/50 border border-cream/30 rounded-3xl p-12 hover:border-cream/60 transition-colors duration-300 h-full">
-            <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">📢</div>
+            <Icon name="megaphone" class="w-12 h-12 mb-6 text-cream group-hover:scale-110 transition-transform duration-300" />
             <h2 class="text-3xl font-bold text-cream mb-4">Advocate</h2>
             <p class="text-cream/80 leading-relaxed mb-8">
               Use your platform, voice, or influence to amplify survivor stories and demand policy change. Sign petitions, share resources, contact representatives.
@@ -144,33 +138,33 @@ import Layout from '../layouts/Layout.astro';
       <div class="border-t border-gold/20 pt-20">
         <h2 class="text-4xl font-bold text-cream mb-12">Frequently Asked Questions</h2>
 
-        <div class="space-y-8">
-          <div class="group">
-            <button class="w-full flex items-center justify-between text-left mb-4 hover:text-gold transition">
+        <div class="space-y-6">
+          <div class="faq-item border-b border-gold/10 pb-6">
+            <button type="button" class="faq-toggle w-full flex items-center justify-between text-left hover:text-gold transition" aria-expanded="false" aria-controls="faq-answer-1">
               <h3 class="text-lg font-bold text-cream">Is my donation tax-deductible?</h3>
-              <span class="text-gold text-2xl">+</span>
+              <span class="faq-icon shrink-0 ml-4 text-gold text-2xl transition-transform duration-200" aria-hidden="true">+</span>
             </button>
-            <p class="text-cream/80 leading-relaxed hidden group-hover:block">
+            <p id="faq-answer-1" class="text-cream/80 leading-relaxed mt-4 hidden">
               Yes! Unchained is a registered 501(c)(3) nonprofit organization. You'll receive a tax receipt for all donations.
             </p>
           </div>
 
-          <div class="group">
-            <button class="w-full flex items-center justify-between text-left mb-4 hover:text-gold transition">
+          <div class="faq-item border-b border-gold/10 pb-6">
+            <button type="button" class="faq-toggle w-full flex items-center justify-between text-left hover:text-gold transition" aria-expanded="false" aria-controls="faq-answer-2">
               <h3 class="text-lg font-bold text-cream">Do volunteers need prior experience?</h3>
-              <span class="text-gold text-2xl">+</span>
+              <span class="faq-icon shrink-0 ml-4 text-gold text-2xl transition-transform duration-200" aria-hidden="true">+</span>
             </button>
-            <p class="text-cream/80 leading-relaxed hidden group-hover:block">
+            <p id="faq-answer-2" class="text-cream/80 leading-relaxed mt-4 hidden">
               We welcome people at all skill levels. We provide training for all volunteer roles and match you to opportunities that fit your background.
             </p>
           </div>
 
-          <div class="group">
-            <button class="w-full flex items-center justify-between text-left mb-4 hover:text-gold transition">
+          <div class="faq-item border-b border-gold/10 pb-6">
+            <button type="button" class="faq-toggle w-full flex items-center justify-between text-left hover:text-gold transition" aria-expanded="false" aria-controls="faq-answer-3">
               <h3 class="text-lg font-bold text-cream">What's your overhead & admin cost?</h3>
-              <span class="text-gold text-2xl">+</span>
+              <span class="faq-icon shrink-0 ml-4 text-gold text-2xl transition-transform duration-200" aria-hidden="true">+</span>
             </button>
-            <p class="text-cream/80 leading-relaxed hidden group-hover:block">
+            <p id="faq-answer-3" class="text-cream/80 leading-relaxed mt-4 hidden">
               12% of revenue goes to operations. 88% funds direct survivor services. Full financial reports published annually on our site.
             </p>
           </div>
@@ -180,8 +174,16 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </Layout>
 
-<style>
-  .group:hover h3 + span {
-    transform: rotate(45deg);
-  }
-</style>
+<script>
+  // Accessible FAQ accordion: click / keyboard to toggle, works on touch.
+  document.querySelectorAll<HTMLButtonElement>('.faq-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      const answer = document.getElementById(btn.getAttribute('aria-controls') || '');
+      answer?.classList.toggle('hidden', expanded);
+      const icon = btn.querySelector<HTMLElement>('.faq-icon');
+      if (icon) icon.style.transform = expanded ? '' : 'rotate(45deg)';
+    });
+  });
+</script>

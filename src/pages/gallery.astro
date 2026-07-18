@@ -1,118 +1,118 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ImageGallery from '../components/ui/ImageGallery';
 
-const galleryImages = [
+// Real campaign artwork for the Unchained Rescue Gala (18 July 2026, Sydney),
+// bundled locally so they resolve in the production build. Portrait posters are
+// shown at their natural aspect (masonry) rather than cropped into cards.
+import banquet from '../images/Screenshot_20260621_210643_ChatGPT.jpg';
+import invitation from '../images/Screenshot_20260629_082119_ChatGPT.jpg';
+import liam from '../images/Screenshot_20260706_233607_ChatGPT.jpg';
+import lorraine from '../images/Screenshot_20260703_180141_ChatGPT.jpg';
+import kingsCross from '../images/Screenshot_20260627_021812_Gallery.jpg';
+import timeCover from '../images/Screenshot_20260621_000617_FaceApp.jpg';
+import sponsors from '../images/Screenshot_20260615_013923_ChatGPT.jpg';
+import firstyle from '../images/Screenshot_20260702_223521_ChatGPT.jpg';
+
+const posters = [
   {
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
-    title: 'Community Support',
-    description: 'Local organizations providing direct aid and resources',
-    category: 'Impact',
-    href: '/gallery/community',
+    image: banquet,
+    title: 'Rescue Banquet — Sydney 2026',
+    category: 'The Gala',
+    description: 'An evening of awareness, hope and action. 18 July 2026, ARIA Wedding Venue, Sydney.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop',
-    title: 'Global Network',
-    description: 'Partners working across 31 countries worldwide',
-    category: 'Network',
-    href: '/gallery/network',
+    image: invitation,
+    title: "You're Invited",
+    category: 'The Gala',
+    description: 'A formal fundraising banquet to break the chains of exploitation — dinner, live entertainment, and survivor testimony.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop',
-    title: 'Survivor Stories',
-    description: 'Voices of hope and resilience from around the world',
-    category: 'Stories',
-    href: '/gallery/stories',
+    image: liam,
+    title: "Liam's Story",
+    category: 'Survivor Stories',
+    description: 'Trafficked, abused, silenced — but not defeated. Now he speaks for those who still can’t.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
-    title: 'Training Programs',
-    description: 'Empowering individuals with skills and opportunities',
-    category: 'Education',
-    href: '/gallery/education',
+    image: lorraine,
+    title: "Lorraine's Story",
+    category: 'Survivor Stories',
+    description: 'One of the Forgotten Australians. Her voice joins many others to expose the truth and break the chains.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop',
-    title: 'Advocacy Campaign',
-    description: 'Raising awareness and demanding systemic change',
-    category: 'Advocacy',
-    href: '/gallery/advocacy',
+    image: kingsCross,
+    title: 'From Kings Cross to Freedom',
+    category: 'Awareness',
+    description: 'They were trafficked right here in Australia. Come and hear two survivor stories — and let’s talk solutions.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop',
-    title: 'Safe Spaces',
-    description: 'Providing security, shelter, and comprehensive support',
-    category: 'Support',
-    href: '/gallery/support',
+    image: timeCover,
+    title: 'Voices for the Voiceless',
+    category: 'Awareness',
+    description: 'Advocates and survivors uniting against child trafficking in Sydney and around the world.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
-    title: 'Justice System',
-    description: 'Working with law enforcement for accountability',
-    category: 'Advocacy',
-    href: '/gallery/justice',
+    image: sponsors,
+    title: 'Our Sponsors & Partners',
+    category: 'Partners',
+    description: 'Community and business leaders standing with the movement to protect vulnerable children and families.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop',
-    title: 'Medical Care',
-    description: 'Health services and recovery support for survivors',
-    category: 'Support',
-    href: '/gallery/medical',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop',
-    title: 'Legal Aid',
-    description: 'Supporting survivors through legal processes',
-    category: 'Support',
-    href: '/gallery/legal',
+    image: firstyle,
+    title: 'Thank You, Firstyle Homes',
+    category: 'Partners',
+    description: 'Proud supporters helping create solutions and take action to end child trafficking.',
   },
 ];
 ---
 
-<Layout title="Gallery — Unchained">
-  <!-- Skip Link -->
-  <a href="#gallery" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-[999] focus:bg-gold focus:text-black focus:px-4 focus:py-2 focus:font-bold">
-    Skip to gallery
-  </a>
-
+<Layout title="Campaign & Events — Unchained">
   <!-- Hero Section -->
-  <section class="min-h-96 py-20 px-4 md:px-12 bg-gradient-to-b from-black to-charcoal flex items-center justify-center">
+  <section class="min-h-96 py-32 px-4 md:px-12 bg-gradient-to-b from-black to-charcoal flex items-center justify-center">
     <div class="max-w-4xl mx-auto text-center">
       <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6">
-        Visual Stories
+        Campaign & Events
       </div>
       <h1 class="text-6xl md:text-7xl font-black text-cream leading-tight mb-8" style="letter-spacing: -2px;">
-        Our Work in Action
+        For the Forgotten
       </h1>
       <p class="text-xl text-cream/80 max-w-2xl mx-auto">
-        Explore The Diverse Ways We're Working To End Human Trafficking And Modern Slavery Worldwide. These Images Represent The Real Impact Of Our Global Network.
+        The awareness, survivor stories, and partners behind our 2026 Rescue Gala — the faces and voices of the movement to end trafficking.
       </p>
     </div>
   </section>
 
-  <!-- Gallery Section -->
-  <section id="gallery" class="relative">
-    <ImageGallery
-      images={galleryImages}
-      columns={3}
-      category="Impact Gallery"
-      title="Our Impact in Action"
-      description="Projects, partnerships, and survivors we support across 31 countries"
-      showOverlay={true}
-    />
+  <!-- Poster Gallery -->
+  <section id="gallery" class="py-20 px-4 md:px-12 bg-gradient-to-b from-charcoal to-black">
+    <div class="max-w-7xl mx-auto columns-1 sm:columns-2 lg:columns-3 gap-8">
+      {posters.map((p) => (
+        <figure class="mb-8 break-inside-avoid group relative overflow-hidden rounded-2xl border border-gold/20 bg-charcoal hover:border-gold/50 transition-colors duration-300">
+          <img
+            src={p.image.src}
+            alt={`${p.title} — Unchained campaign artwork`}
+            loading="lazy"
+            class="w-full h-auto block group-hover:scale-[1.02] transition-transform duration-500"
+          />
+          <figcaption class="p-6">
+            <span class="text-gold text-xs uppercase tracking-widest font-semibold">{p.category}</span>
+            <h3 class="text-xl font-bold text-cream mt-2 mb-1">{p.title}</h3>
+            <p class="text-cream/70 text-sm leading-relaxed">{p.description}</p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
   </section>
 
   <!-- Call to Action Section -->
-  <section class="py-20 px-4 md:px-12 bg-gradient-to-b from-charcoal to-black">
+  <section class="py-20 px-4 md:px-12 bg-gradient-to-b from-black to-charcoal">
     <div class="max-w-4xl mx-auto text-center">
       <div class="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6">
-        Inspired by our work?
+        Inspired to act?
       </div>
       <h2 class="text-5xl md:text-6xl font-black text-cream leading-tight mb-8" style="letter-spacing: -2px;">
         Get Involved Today
       </h2>
       <p class="text-xl text-cream/80 max-w-2xl mx-auto mb-12">
-        Your Support Helps Us Continue This Vital Work. Whether You Donate, Volunteer, Or Advocate, Every Contribution Matters.
+        Your support helps us continue this vital work. Whether you donate, volunteer, or advocate, every contribution matters.
       </p>
       <div class="flex flex-col md:flex-row gap-6 justify-center">
         <a href="/get-involved" class="px-12 py-5 bg-gold text-black font-bold rounded-full hover:scale-[1.02] transition-transform duration-200 uppercase text-sm tracking-[0.75px] shadow-lg hover:shadow-xl">

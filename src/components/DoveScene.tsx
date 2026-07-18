@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,9 +17,23 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const doveRef = useRef<THREE.Group | null>(null);
   const animationIdRef = useRef<number | null>(null);
+  const [supported, setSupported] = useState(true);
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    // Fall back to a static hero if WebGL is unavailable (blocked GPU, old device).
+    try {
+      const probe = document.createElement('canvas');
+      const gl = probe.getContext('webgl') || probe.getContext('experimental-webgl');
+      if (!gl) {
+        setSupported(false);
+        return;
+      }
+    } catch {
+      setSupported(false);
+      return;
+    }
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -35,7 +49,13 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
     camera.position.z = 4.5;
     cameraRef.current = camera;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch {
+      setSupported(false);
+      return;
+    }
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.shadowMap.enabled = true;
@@ -260,11 +280,21 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
 
   return (
     <div className="relative w-full h-full">
-      <div
-        ref={containerRef}
-        className="w-full h-screen bg-gradient-to-b from-black to-charcoal relative overflow-hidden"
-        style={{ position: 'relative', overflow: 'hidden' }}
-      />
+      {supported ? (
+        <div
+          ref={containerRef}
+          className="w-full h-screen bg-gradient-to-b from-black to-charcoal relative overflow-hidden"
+          style={{ position: 'relative', overflow: 'hidden' }}
+        />
+      ) : (
+        <div className="w-full h-screen bg-gradient-to-b from-black to-charcoal relative overflow-hidden flex items-center justify-center">
+          {/* WebGL fallback: on-brand gold glow so the hero is never blank */}
+          <div
+            className="w-96 h-96 rounded-full blur-3xl"
+            style={{ background: 'radial-gradient(circle, rgba(212,165,116,0.25) 0%, transparent 70%)' }}
+          />
+        </div>
+      )}
       {/* Spotlight overlay */}
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"

@@ -1,4 +1,6 @@
 ---
+import Nav from '../components/Nav.astro';
+
 interface Props {
   title: string;
 }
@@ -25,11 +27,17 @@ const { title } = Astro.props;
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;900&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23d4a574'>🕊</text></svg>" />
   </head>
   <body>
-    <slot />
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-[999] focus:bg-gold focus:text-black focus:px-4 focus:py-2 focus:font-bold">
+      Skip to main content
+    </a>
+    <Nav />
+    <main id="main-content">
+      <slot />
+    </main>
   </body>
 </html>
 
@@ -79,7 +87,9 @@ const { title } = Astro.props;
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
-    letter-spacing: -2px;
+    /* Relative tracking so small headings (FAQ, card titles) keep their word
+       spacing; large display headings still opt into tighter -2px inline. */
+    letter-spacing: -0.02em;
   }
 
   a {
