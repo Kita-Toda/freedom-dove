@@ -1,0 +1,145 @@
+---
+// Global site navigation. Rendered once in Layout.astro so it appears on every
+// page. Transparent over the hero, turns solid charcoal on scroll. Current
+// page is marked with aria-current + gold text.
+const links = [
+  { href: '/#impact', label: 'Impact' },
+  { href: '/founder', label: 'Founder' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/about', label: 'About' },
+];
+
+const path = Astro.url.pathname;
+// Anchor links (Impact) are page sections, not routes — never mark them active.
+const isActive = (href: string): boolean => {
+  if (href.includes('#')) return false;
+  if (href === '/') return path === '/';
+  return path === href || path.startsWith(href + '/');
+};
+---
+
+<header
+  id="site-header"
+  class="fixed top-0 inset-x-0 z-50 transition-colors duration-300"
+>
+  <nav
+    aria-label="Primary"
+    class="max-w-6xl mx-auto px-4 md:px-12 h-20 flex items-center justify-between"
+  >
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 group" aria-label="Unchained — home">
+      <span class="text-2xl" aria-hidden="true">🕊</span>
+      <span
+        class="font-serif text-2xl font-black text-cream group-hover:text-gold transition-colors"
+        style="letter-spacing:-0.5px;"
+      >
+        Unchained
+      </span>
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-10">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          aria-current={isActive(l.href) ? 'page' : undefined}
+          class:list={[
+            'text-xs uppercase tracking-[0.2em] font-semibold transition-colors',
+            isActive(l.href) ? 'text-gold' : 'text-cream/80 hover:text-gold',
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+      <a
+        href="/get-involved"
+        class="px-6 py-3 bg-gold text-black font-bold rounded-full uppercase text-xs tracking-[0.75px] hover:scale-[1.03] transition-transform duration-200"
+      >
+        Get Involved
+      </a>
+    </div>
+
+    <!-- Mobile toggle -->
+    <button
+      id="nav-toggle"
+      type="button"
+      class="md:hidden text-cream p-2 -mr-2"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden bg-charcoal/95 backdrop-blur-md border-t border-gold/20"
+  >
+    <div class="px-4 py-6 flex flex-col gap-5">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          aria-current={isActive(l.href) ? 'page' : undefined}
+          class:list={[
+            'text-sm uppercase tracking-[0.2em] font-semibold transition-colors',
+            isActive(l.href) ? 'text-gold' : 'text-cream/80 hover:text-gold',
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+      <a
+        href="/get-involved"
+        class="mt-2 text-center px-6 py-3 bg-gold text-black font-bold rounded-full uppercase text-xs tracking-[0.75px]"
+      >
+        Get Involved
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  // Transparent at the top, solid once the user scrolls past the hero edge.
+  const setSolid = () => {
+    if (!header) return;
+    header.classList.toggle('is-solid', window.scrollY > 20);
+  };
+  setSolid();
+  window.addEventListener('scroll', setSolid, { passive: true });
+
+  // Mobile menu open/close, with matching aria + label state.
+  const closeMenu = () => {
+    menu?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Open menu');
+  };
+  const openMenu = () => {
+    menu?.classList.remove('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.setAttribute('aria-label', 'Close menu');
+  };
+  toggle?.addEventListener('click', () => {
+    (toggle.getAttribute('aria-expanded') === 'true' ? closeMenu : openMenu)();
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+</script>
+
+<style>
+  #site-header.is-solid {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+  }
+</style>
