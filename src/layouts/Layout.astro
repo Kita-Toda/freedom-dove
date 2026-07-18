@@ -87,7 +87,9 @@ const { title } = Astro.props;
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
-    letter-spacing: -2px;
+    /* Relative tracking so small headings (FAQ, card titles) keep their word
+       spacing; large display headings still opt into tighter -2px inline. */
+    letter-spacing: -0.02em;
   }
 
   a {
