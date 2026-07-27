@@ -26,7 +26,7 @@ export default function StatCard({
     <div className="relative group">
       <div className={`absolute -inset-2 bg-gradient-to-r ${glowColor} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl`}></div>
       <div className={`relative bg-charcoal/50 border ${colorMap[accentColor]} rounded-2xl p-8 backdrop-blur-sm hover:border-opacity-100 transition-colors duration-300`}>
-        <div className={`text-5xl font-black ${colorMap[accentColor].split(' ')[0]} mb-3`}>
+        <div className={`text-4xl sm:text-5xl font-black ${colorMap[accentColor].split(' ')[0]} mb-3`}>
           {number}
         </div>
         <div className="text-lg font-bold text-cream mb-2">{label}</div>

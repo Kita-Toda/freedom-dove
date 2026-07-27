@@ -51,7 +51,7 @@ export default function ActionCard({
   return (
     <div className="group">
       <div className={`relative bg-charcoal/50 border ${styles.border} rounded-3xl p-12 ${styles.bg} transition-all duration-300 h-full`}>
-        <div className={`text-5xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
+        <div className={`text-4xl sm:text-5xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
           {icon}
         </div>
         <h2 className={`text-3xl font-bold ${styles.text} mb-4`}>{title}</h2>

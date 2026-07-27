@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Spotlight } from './Spotlight';
+import DoveStatic from './ui/DoveStatic';
 
 // NOTE: gsap and ScrollTrigger used to be imported here purely to call
 // registerPlugin — nothing in this file ever used them (the dove runs on a
@@ -298,20 +299,18 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
 
   return (
     <div className="relative w-full h-full">
+      {/* h-full, not h-screen: the hero now sizes this slot responsively and a
+          hardcoded viewport height would overflow it. */}
       {supported ? (
         <div
           ref={containerRef}
-          className="w-full h-screen bg-gradient-to-b from-black to-charcoal relative overflow-hidden"
+          className="w-full h-full relative overflow-hidden"
           style={{ position: 'relative', overflow: 'hidden' }}
         />
       ) : (
-        <div className="w-full h-screen bg-gradient-to-b from-black to-charcoal relative overflow-hidden flex items-center justify-center">
-          {/* WebGL fallback: on-brand gold glow so the hero is never blank */}
-          <div
-            className="w-96 h-96 rounded-full blur-3xl"
-            style={{ background: 'radial-gradient(circle, rgba(212,165,116,0.25) 0%, transparent 70%)' }}
-          />
-        </div>
+        /* WebGL unavailable (blocked GPU, old device) — fall back to the same
+           static dove mobile gets, rather than a bare glow. */
+        <DoveStatic />
       )}
       {/* Spotlight overlay */}
       <Spotlight

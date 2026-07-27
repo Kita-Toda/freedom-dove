@@ -32,7 +32,8 @@ function createBeam(width: number, height: number): Beam {
         angle: angle,
         speed: 0.6 + Math.random() * 1.2,
         opacity: 0.12 + Math.random() * 0.16,
-        hue: 190 + Math.random() * 70,
+        // Brand gold (~31) or mauve (~295), not the stock cyan-blue ramp.
+        hue: Math.random() < 0.5 ? 28 + Math.random() * 10 : 290 + Math.random() * 10,
         pulse: Math.random() * Math.PI * 2,
         pulseSpeed: 0.02 + Math.random() * 0.03,
     };
@@ -95,7 +96,8 @@ export function BeamsBackground({
                 (Math.random() - 0.5) * spacing * 0.5;
             beam.width = 100 + Math.random() * 100;
             beam.speed = 0.5 + Math.random() * 0.4;
-            beam.hue = 190 + (index * 70) / totalBeams;
+            // Alternate brand gold and mauve instead of the stock cyan-blue ramp.
+            beam.hue = index % 2 === 0 ? 31 + (index * 8) / totalBeams : 295 - (index * 6) / totalBeams;
             beam.opacity = 0.2 + Math.random() * 0.1;
             return beam;
         }
@@ -114,24 +116,24 @@ export function BeamsBackground({
             const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
 
             // Enhanced gradient with multiple color stops
-            gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 65%, 0)`);
+            gradient.addColorStop(0, `hsla(${beam.hue}, 45%, 62%, 0)`);
             gradient.addColorStop(
                 0.1,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`
+                `hsla(${beam.hue}, 45%, 62%, ${pulsingOpacity * 0.5})`
             );
             gradient.addColorStop(
                 0.4,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`
+                `hsla(${beam.hue}, 45%, 62%, ${pulsingOpacity})`
             );
             gradient.addColorStop(
                 0.6,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`
+                `hsla(${beam.hue}, 45%, 62%, ${pulsingOpacity})`
             );
             gradient.addColorStop(
                 0.9,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`
+                `hsla(${beam.hue}, 45%, 62%, ${pulsingOpacity * 0.5})`
             );
-            gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 65%, 0)`);
+            gradient.addColorStop(1, `hsla(${beam.hue}, 45%, 62%, 0)`);
 
             ctx.fillStyle = gradient;
             ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);

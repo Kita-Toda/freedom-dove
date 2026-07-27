@@ -108,6 +108,8 @@
      use in the codebase, for this one 10s opacity loop. As CSS it costs nothing
      and runs off the main thread. */
   --animate-beam-pulse: beamPulse 10s ease-in-out infinite;
+  /* Gentle drift for the static dove, echoing the WebGL scene's idle bob. */
+  --animate-dove-float: doveFloat 7s ease-in-out infinite;
 
   @keyframes fadeInUp {
     0% {
@@ -127,6 +129,16 @@
     }
     50% {
       transform: translateY(-12px);
+    }
+  }
+
+  @keyframes doveFloat {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-14px) rotate(-1.5deg);
     }
   }
 
