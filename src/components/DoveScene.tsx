@@ -39,7 +39,8 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0a0a);
+    // No opaque background: the canvas sits over BeamsBackground, and filling
+    // it with black hid the beams entirely on desktop.
     sceneRef.current = scene;
 
     const camera = new THREE.PerspectiveCamera(
@@ -48,7 +49,7 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
       0.1,
       1000
     );
-    camera.position.z = 4.5;
+    camera.position.z = 3.5;
     cameraRef.current = camera;
 
     let renderer: THREE.WebGLRenderer;
@@ -84,125 +85,117 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
     spotLight.distance = 20;
     scene.add(spotLight);
 
-    // Create refined dove
+    // ---- Dove ---------------------------------------------------------
+    // Rebuilt from the original scaled-sphere-plus-lathe-spindles model, which
+    // rendered as a lumpy body with two ear-shaped blades. Now: a lathe-profile
+    // body that tapers to the tail and swells at the breast, a real neck, and
+    // flat extruded wings and tail feathers.
     const doveGroup = new THREE.Group();
 
-    // Body (larger, more refined)
-    const bodyGeometry = new THREE.SphereGeometry(1.0, 64, 48);
-    const bodyMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf5f1e8,
-      metalness: 0.05,
-      roughness: 0.65,
-      envMapIntensity: 0.5,
+    const plumage = new THREE.MeshStandardMaterial({
+      color: 0xf5f1e8, metalness: 0.03, roughness: 0.62,
     });
-    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-    body.scale.set(1, 0.85, 1.3); // Elongated body
-    body.castShadow = true;
-    body.receiveShadow = true;
+    const plumageThin = new THREE.MeshStandardMaterial({
+      color: 0xf5f1e8, metalness: 0.03, roughness: 0.6, side: THREE.DoubleSide,
+    });
+
+    // Body. Both ends close at r=0 — an open profile leaves a hole at the
+    // breast and tail that renders as a black disc into the hollow shell.
+    const bodyProfile = [
+      [0.000, -1.12], [0.045, -1.02], [0.110, -0.86], [0.185, -0.64],
+      [0.258, -0.38], [0.318, -0.10], [0.348, 0.18], [0.348, 0.42],
+      [0.322, 0.64], [0.268, 0.84], [0.195, 0.99], [0.120, 1.09],
+      [0.055, 1.15], [0.000, 1.18],
+    ].map(([r, z]) => new THREE.Vector2(r, z));
+    const body = new THREE.Mesh(new THREE.LatheGeometry(bodyProfile, 48), plumage);
+    body.rotation.x = Math.PI / 2;   // lathe spins about Y; lay the axis along Z
+    body.scale.set(1.0, 1.0, 1.08);
+    body.castShadow = true; body.receiveShadow = true;
     doveGroup.add(body);
 
-    // Head (smaller, better proportioned)
-    const headGeometry = new THREE.SphereGeometry(0.28, 64, 48);
-    const headMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf5f1e8,
-      metalness: 0.08,
-      roughness: 0.6,
-    });
-    const head = new THREE.Mesh(headGeometry, headMaterial);
-    head.position.set(0, 0.6, 1.1);
+    // Neck — the old model had none, which is most of why it read as a snowman.
+    const neckProfile = [
+      [0.215, 0.00], [0.190, 0.09], [0.163, 0.19], [0.152, 0.29],
+      [0.158, 0.38], [0.175, 0.46],
+    ].map(([r, y]) => new THREE.Vector2(r, y));
+    const neck = new THREE.Mesh(new THREE.LatheGeometry(neckProfile, 36), plumage);
+    neck.position.set(0, 0.22, 0.92);
+    neck.rotation.x = -0.46;
+    neck.castShadow = true;
+    doveGroup.add(neck);
+
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.225, 40, 32), plumage);
+    head.position.set(0, 0.60, 1.16);
+    head.scale.set(1, 0.98, 1.12);
     head.castShadow = true;
-    head.receiveShadow = true;
     doveGroup.add(head);
 
-    // Beak
-    const beakGeometry = new THREE.ConeGeometry(0.08, 0.4, 16);
-    const beakMaterial = new THREE.MeshStandardMaterial({
-      color: 0xd4a574,
-      metalness: 0.2,
-      roughness: 0.5,
-    });
-    const beak = new THREE.Mesh(beakGeometry, beakMaterial);
-    beak.position.set(0, 0.55, 1.35);
+    const beak = new THREE.Mesh(
+      new THREE.ConeGeometry(0.052, 0.30, 18),
+      new THREE.MeshStandardMaterial({ color: 0xd4a574, metalness: 0.25, roughness: 0.45 })
+    );
+    beak.position.set(0, 0.585, 1.42);
     beak.rotation.x = Math.PI / 2;
     beak.castShadow = true;
     doveGroup.add(beak);
 
-    // Eyes (with shine)
-    const eyeGeometry = new THREE.SphereGeometry(0.1, 32, 24);
-    const eyeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x1a1a1a,
-      metalness: 0.6,
-      roughness: 0.2,
+    const eyeGeo = new THREE.SphereGeometry(0.032, 20, 16);
+    const eyeMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.5, roughness: 0.25 });
+    for (const sx of [-1, 1]) {
+      const eye = new THREE.Mesh(eyeGeo, eyeMat);
+      eye.position.set(sx * 0.150, 0.655, 1.27);
+      doveGroup.add(eye);
+    }
+
+    // Wings: flat extruded aerofoils laid in the XZ plane. The previous
+    // LatheGeometry wings were rotational solids — spindles, not aerofoils.
+    const wingShape = new THREE.Shape();
+    wingShape.moveTo(0, 0.48);
+    wingShape.bezierCurveTo(0.52, 0.56, 1.02, 0.44, 1.42, 0.16);
+    wingShape.bezierCurveTo(1.55, 0.07, 1.56, -0.05, 1.42, -0.11);
+    wingShape.bezierCurveTo(1.02, -0.27, 0.62, -0.42, 0.22, -0.55);
+    wingShape.bezierCurveTo(0.11, -0.58, 0.02, -0.57, 0, -0.48);
+    wingShape.closePath();
+    const wingGeo = new THREE.ExtrudeGeometry(wingShape, {
+      depth: 0.05, bevelEnabled: true, bevelThickness: 0.028,
+      bevelSize: 0.032, bevelSegments: 3, curveSegments: 24,
     });
-    const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-    leftEye.position.set(-0.12, 0.7, 1.25);
-    leftEye.castShadow = true;
-    doveGroup.add(leftEye);
+    wingGeo.translate(0, 0, -0.025);
+    wingGeo.rotateX(Math.PI / 2);   // +PI/2 so the leading edge faces +Z
 
-    const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-    rightEye.position.set(0.12, 0.7, 1.25);
-    rightEye.castShadow = true;
-    doveGroup.add(rightEye);
-
-    // Refined wings with realistic bird wing geometry
-    const wingMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf5f1e8,
-      metalness: 0.02,
-      roughness: 0.65,
-      side: THREE.DoubleSide,
-      flatShading: false,
-    });
-
-    // Realistic bird wing shape profile - tapering to a point
-    const wingPoints = [
-      new THREE.Vector2(0, 0),
-      new THREE.Vector2(0.12, 0.15),
-      new THREE.Vector2(0.28, 0.4),
-      new THREE.Vector2(0.42, 0.7),
-      new THREE.Vector2(0.48, 1.0),
-      new THREE.Vector2(0.45, 1.3),
-      new THREE.Vector2(0.38, 1.55),
-      new THREE.Vector2(0.28, 1.75),
-      new THREE.Vector2(0.15, 1.85),
-      new THREE.Vector2(0.05, 1.9),
-      new THREE.Vector2(0, 1.92),
-    ];
-
-    const leftWingGeometry = new THREE.LatheGeometry(wingPoints, 16);
-    const leftWing = new THREE.Mesh(leftWingGeometry, wingMaterial);
-    leftWing.position.set(-0.85, 0.15, -0.15);
-    leftWing.scale.set(0.9, 1.1, 0.6);
-    leftWing.rotation.z = 0.35;
-    leftWing.rotation.y = 0.15;
-    leftWing.castShadow = true;
-    leftWing.receiveShadow = true;
+    const leftWing = new THREE.Mesh(wingGeo, plumageThin);
+    leftWing.position.set(-0.24, 0.24, 0.16);
+    leftWing.rotation.y = Math.PI;  // mirror to span out along -X
+    leftWing.castShadow = true; leftWing.receiveShadow = true;
     doveGroup.add(leftWing);
 
-    const rightWingGeometry = new THREE.LatheGeometry(wingPoints, 16);
-    const rightWing = new THREE.Mesh(rightWingGeometry, wingMaterial);
-    rightWing.position.set(0.85, 0.15, -0.15);
-    rightWing.scale.set(-0.9, 1.1, 0.6);
-    rightWing.rotation.z = -0.35;
-    rightWing.rotation.y = -0.15;
-    rightWing.castShadow = true;
-    rightWing.receiveShadow = true;
+    const rightWing = new THREE.Mesh(wingGeo.clone(), plumageThin);
+    rightWing.position.set(0.24, 0.24, 0.16);
+    rightWing.castShadow = true; rightWing.receiveShadow = true;
     doveGroup.add(rightWing);
 
-    // Tail feathers
-    const tailGeometry = new THREE.ConeGeometry(0.5, 1.2, 32);
-    const tailMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf5f1e8,
-      metalness: 0.04,
-      roughness: 0.68,
+    // Tail: flat forked fan rather than a cone.
+    const tailShape = new THREE.Shape();
+    tailShape.moveTo(0, 0.17);
+    tailShape.lineTo(-1.02, 0.44);
+    tailShape.lineTo(-0.80, 0.02);
+    tailShape.lineTo(-1.02, -0.44);
+    tailShape.lineTo(0, -0.17);
+    tailShape.closePath();
+    const tailGeo = new THREE.ExtrudeGeometry(tailShape, {
+      depth: 0.045, bevelEnabled: true, bevelThickness: 0.02,
+      bevelSize: 0.025, bevelSegments: 2, curveSegments: 12,
     });
-    const tail = new THREE.Mesh(tailGeometry, tailMaterial);
-    tail.position.set(0, -0.2, -1.3);
-    tail.rotation.x = Math.PI / 2.2;
-    tail.castShadow = true;
-    tail.receiveShadow = true;
+    tailGeo.rotateX(-Math.PI / 2);
+    tailGeo.rotateY(-Math.PI / 2);  // -PI/2, else the fan points out the front
+    const tail = new THREE.Mesh(tailGeo, plumageThin);
+    tail.position.set(0, 0.02, -1.00);
+    tail.rotation.x = -0.12;
+    tail.castShadow = true; tail.receiveShadow = true;
     doveGroup.add(tail);
 
     doveGroup.position.set(0, 0, 0);
+    doveGroup.rotation.z = 0.08;    // slight bank, so it reads as gliding
     scene.add(doveGroup);
     doveRef.current = doveGroup;
 
@@ -223,19 +216,20 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
 
       // Idle animations
       if (doveRef.current) {
-        doveRef.current.rotation.y += 0.004;
+        // Gentle yaw around a three-quarter view rather than a full turntable
+        // spin. A continuous spin drags the bird through head-on and tail-on
+        // angles where the wings are edge-on and it reads as a blob.
+        doveRef.current.rotation.y = 0.55 + Math.sin(time * 0.25) * 0.45;
 
         // Gentle breathing motion
         doveRef.current.position.y = Math.sin(time * 0.6) * 0.25;
 
-        // Smooth wing flapping
-        const leftWing = doveRef.current.children[5];
-        const rightWing = doveRef.current.children[6];
-        if (leftWing && rightWing) {
-          const wingFlap = Math.sin(time * 2.5) * 0.25;
-          leftWing.rotation.z = 0.4 + wingFlap;
-          rightWing.rotation.z = -0.4 - wingFlap;
-        }
+        // Smooth wing flapping. Uses the wing meshes directly rather than
+        // children[5]/[6] — that index lookup silently grabbed the wrong parts
+        // as soon as the model gained a neck.
+        const wingFlap = Math.sin(time * 2.5) * 0.30;
+        leftWing.rotation.z = -wingFlap;
+        rightWing.rotation.z = wingFlap;
 
         // Scroll-based interaction
         const scrollFactor = Math.min(scrollY / window.innerHeight, 1);
@@ -247,9 +241,11 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
         spotLight.intensity = 1.2 + scrollFactor * 0.4;
       }
 
-      // Subtle camera drift
+      // Subtle camera drift, biased above the bird so the wing surfaces read
+      // rather than being seen edge-on from bird level.
       camera.position.x = Math.sin(time * 0.2) * 0.3;
-      camera.position.y = Math.cos(time * 0.25) * 0.2;
+      camera.position.y = 0.95 + Math.cos(time * 0.25) * 0.2;
+      camera.lookAt(0, 0, 0);
 
       renderer.render(scene, camera);
     };
