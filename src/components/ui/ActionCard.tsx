@@ -70,7 +70,7 @@ export default function ActionCard({
 
         <a
           href={ctaHref}
-          className={`inline-block px-8 py-3 font-bold rounded-full hover:scale-[1.02] transition-transform duration-200 uppercase text-sm tracking-wider ${styles.button}`}
+          className={`inline-block px-8 py-3 font-bold rounded-full hover:scale-[1.02] transition-transform duration-200 text-sm tracking-wide ${styles.button}`}
         >
           {ctaText}
         </a>

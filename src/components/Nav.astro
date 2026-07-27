@@ -44,7 +44,7 @@ const isActive = (href: string): boolean => {
           href={l.href}
           aria-current={isActive(l.href) ? 'page' : undefined}
           class:list={[
-            'text-xs uppercase tracking-[0.2em] font-semibold transition-colors',
+            'text-xs tracking-[0.08em] font-semibold transition-colors',
             isActive(l.href) ? 'text-gold' : 'text-cream/80 hover:text-gold',
           ]}
         >
@@ -53,7 +53,7 @@ const isActive = (href: string): boolean => {
       ))}
       <a
         href="/get-involved"
-        class="px-6 py-3 bg-gold text-black font-bold rounded-full uppercase text-xs tracking-[0.75px] hover:scale-[1.03] transition-transform duration-200"
+        class="px-6 py-3 bg-gold text-black font-bold rounded-full text-xs tracking-[0.75px] hover:scale-[1.03] transition-transform duration-200"
       >
         Get Involved
       </a>
@@ -85,7 +85,7 @@ const isActive = (href: string): boolean => {
           href={l.href}
           aria-current={isActive(l.href) ? 'page' : undefined}
           class:list={[
-            'text-sm uppercase tracking-[0.2em] font-semibold transition-colors min-h-11 flex items-center',
+            'text-sm tracking-[0.08em] font-semibold transition-colors min-h-11 flex items-center',
             isActive(l.href) ? 'text-gold' : 'text-cream/80 hover:text-gold',
           ]}
         >
@@ -94,7 +94,7 @@ const isActive = (href: string): boolean => {
       ))}
       <a
         href="/get-involved"
-        class="mt-2 text-center px-6 py-4 bg-gold text-black font-bold rounded-full uppercase text-xs tracking-[0.75px]"
+        class="mt-2 text-center px-6 py-4 bg-gold text-black font-bold rounded-full text-xs tracking-[0.75px]"
       >
         Get Involved
       </a>

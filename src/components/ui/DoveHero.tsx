@@ -65,7 +65,7 @@ export default function DoveHero({
           )}
         </div>
 
-        <p className="text-lg sm:text-xl text-cream font-light tracking-widest max-w-2xl mx-auto text-center text-balance">
+        <p className="text-lg sm:text-xl text-cream font-light tracking-wide max-w-2xl mx-auto text-center text-balance">
           {missionText}
         </p>
       </div>

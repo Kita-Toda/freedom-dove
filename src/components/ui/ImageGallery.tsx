@@ -52,7 +52,7 @@ export default function ImageGallery({
         {(title || category) && (
           <div className="mb-20">
             {category && (
-              <div className="text-gold text-xs uppercase tracking-[0.2em] font-semibold opacity-80 mb-6">
+              <div className="text-gold text-xs tracking-[0.08em] font-semibold opacity-80 mb-6">
                 {category}
               </div>
             )}
@@ -74,7 +74,7 @@ export default function ImageGallery({
           <div className="mb-12 flex flex-wrap gap-4">
             <button
               onClick={() => setFilter(null)}
-              className={`px-6 py-2 rounded-full font-semibold uppercase text-sm tracking-wider transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full font-semibold text-sm tracking-wide transition-all duration-300 ${
                 filter === null
                   ? 'bg-gold text-black'
                   : 'border-2 border-gold/40 text-cream hover:border-gold'
@@ -86,7 +86,7 @@ export default function ImageGallery({
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-6 py-2 rounded-full font-semibold uppercase text-sm tracking-wider transition-all duration-300 ${
+                className={`px-6 py-2 rounded-full font-semibold text-sm tracking-wide transition-all duration-300 ${
                   filter === cat
                     ? 'bg-gold text-black'
                     : 'border-2 border-gold/40 text-cream hover:border-gold'
