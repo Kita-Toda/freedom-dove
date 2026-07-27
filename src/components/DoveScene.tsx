@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Spotlight } from './Spotlight';
 
-gsap.registerPlugin(ScrollTrigger);
+// NOTE: gsap and ScrollTrigger used to be imported here purely to call
+// registerPlugin — nothing in this file ever used them (the dove runs on a
+// plain requestAnimationFrame loop). That pulled all of gsap into the hero
+// island's bundle. The page's real gsap usage lives in index.astro's script.
 
 interface DoveSceneProps {
   scrollProgress?: number;
@@ -57,7 +58,9 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
       return;
     }
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // Cap at 2 — rendering a shadowed WebGL scene at 3x on a high-DPI phone
+    // triples the fragment work with no perceptible gain.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     containerRef.current.appendChild(renderer.domElement);
@@ -250,7 +253,21 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
       renderer.render(scene, camera);
     };
 
-    animate();
+    // Run the render loop only while the hero is on screen. It used to keep
+    // rendering the WebGL scene for the entire session, burning CPU/GPU while
+    // the user was reading sections far below it.
+    const visibility = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (animationIdRef.current === null) animate();
+        } else if (animationIdRef.current !== null) {
+          cancelAnimationFrame(animationIdRef.current);
+          animationIdRef.current = null;
+        }
+      },
+      { threshold: 0 }
+    );
+    visibility.observe(containerRef.current);
 
     // Resize handler
     const handleResize = () => {
@@ -267,6 +284,7 @@ export default function DoveScene({ scrollProgress = 0 }: DoveSceneProps) {
     window.addEventListener('resize', handleResize);
 
     return () => {
+      visibility.disconnect();
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
       if (animationIdRef.current) {

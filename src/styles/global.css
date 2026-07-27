@@ -104,6 +104,10 @@
 
   --animate-fade-in-up: fadeInUp 0.8s ease-out;
   --animate-bounce: bounce 2s infinite;
+  /* Beams overlay pulse. Was a framer-motion <motion.div> — the library's only
+     use in the codebase, for this one 10s opacity loop. As CSS it costs nothing
+     and runs off the main thread. */
+  --animate-beam-pulse: beamPulse 10s ease-in-out infinite;
 
   @keyframes fadeInUp {
     0% {
@@ -123,6 +127,16 @@
     }
     50% {
       transform: translateY(-12px);
+    }
+  }
+
+  @keyframes beamPulse {
+    0%,
+    100% {
+      opacity: 0.05;
+    }
+    50% {
+      opacity: 0.15;
     }
   }
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 
 interface AnimatedGradientBackgroundProps {
@@ -46,7 +45,9 @@ export function BeamsBackground({
 }: AnimatedGradientBackgroundProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const beamsRef = useRef<Beam[]>([]);
-    const animationFrameRef = useRef<number>(0);
+    // null means "not currently animating" — the IntersectionObserver below
+    // uses it to decide whether the loop needs restarting.
+    const animationFrameRef = useRef<number | null>(null);
     const MINIMUM_BEAMS = 20;
 
     const opacityMap = {
@@ -63,7 +64,9 @@ export function BeamsBackground({
         if (!ctx) return;
 
         const updateCanvasSize = () => {
-            const dpr = window.devicePixelRatio || 1;
+            // Cap DPR at 2: a 3x phone would otherwise rasterise 9x the pixels
+            // through a 35px blur filter every frame for no visible gain.
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
             canvas.style.width = `${window.innerWidth}px`;
@@ -157,9 +160,24 @@ export function BeamsBackground({
             animationFrameRef.current = requestAnimationFrame(animate);
         }
 
-        animate();
+        // Only run the loop while the hero is on screen. Previously it kept
+        // painting blurred beams for the whole session, including while the
+        // user read the rest of the page.
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (animationFrameRef.current === null) animate();
+                } else if (animationFrameRef.current !== null) {
+                    cancelAnimationFrame(animationFrameRef.current);
+                    animationFrameRef.current = null;
+                }
+            },
+            { threshold: 0 }
+        );
+        observer.observe(canvas);
 
         return () => {
+            observer.disconnect();
             window.removeEventListener("resize", updateCanvasSize);
             if (animationFrameRef.current) {
                 cancelAnimationFrame(animationFrameRef.current);
@@ -180,16 +198,8 @@ export function BeamsBackground({
                 style={{ filter: "blur(15px)" }}
             />
 
-            <motion.div
-                className="absolute inset-0 bg-black/5"
-                animate={{
-                    opacity: [0.05, 0.15, 0.05],
-                }}
-                transition={{
-                    duration: 10,
-                    ease: "easeInOut",
-                    repeat: Infinity,
-                }}
+            <div
+                className="absolute inset-0 bg-black/5 animate-beam-pulse"
                 style={{
                     backdropFilter: "blur(50px)",
                 }}

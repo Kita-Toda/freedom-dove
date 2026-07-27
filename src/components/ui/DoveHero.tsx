@@ -30,7 +30,9 @@ export default function DoveHero({
 
       {/* Dove Scene */}
       <div className="w-full h-3/4">
-        <DoveScene client:load />
+        {/* client:load was a no-op here — Astro client directives only work on
+            components rendered from .astro files, not inside a React tree. */}
+        <DoveScene />
       </div>
 
       {/* Mission Statement */}
