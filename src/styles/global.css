@@ -1,0 +1,128 @@
+@import 'tailwindcss';
+
+/* Site base styles. These MUST stay inside `@layer base`: Tailwind v4 emits real
+   CSS cascade layers, and unlayered CSS beats layered CSS regardless of
+   specificity. Left unlayered (as they were in the Astro 5 / Tailwind 3 setup),
+   the `*` reset below would override `px-*`/`mx-auto` and the `a` colour would
+   override `text-*` on links. */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --black: #0a0a0a;
+    --charcoal: #1a1a1a;
+    --gold: #d4a574;
+    --gold-light: #e8c9a0;
+    --mauve: #8b6f8e;
+    --mauve-light: #b8a0b8;
+    --cream: #f5f1e8;
+    --gray-dark: #3a3a3a;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+    color: var(--cream);
+    font-family: 'Geist', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Film-grain overlay. The SVG is base64-encoded rather than URL-escaped: as a
+     plain `data:image/svg+xml,...` string the inner `url(%23noise)` fails
+     lightningcss minification ("Unexpected token Delim('%')") during
+     `astro build`. Decoded, it is a 100x100 fractalNoise turbulence rect at 2%
+     opacity. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iNCIgLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wMiIgLz48L3N2Zz4=');
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    /* Relative tracking so small headings (FAQ, card titles) keep their word
+       spacing; large display headings still opt into tighter -2px inline. */
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 200ms ease-out;
+  }
+
+  a:hover {
+    color: var(--gold-light);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Tailwind v4 theme. Replaces the `theme.extend` block that previously lived in
+   tailwind.config.cjs — v4 reads design tokens from CSS custom properties. */
+@theme {
+  --color-black: #0a0a0a;
+  --color-charcoal: #1a1a1a;
+  --color-gold: #d4a574;
+  --color-gold-light: #e8c9a0;
+  --color-mauve: #8b6f8e;
+  --color-mauve-light: #b8a0b8;
+  --color-cream: #f5f1e8;
+  --color-gray-dark: #3a3a3a;
+
+  --font-sans: 'Geist', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+
+  --tracking-button: 0.75px;
+  --tracking-label: 0.5px;
+  --tracking-caption: 0.5px;
+  --tracking-heading: -0.5px;
+
+  --animate-fade-in-up: fadeInUp 0.8s ease-out;
+  --animate-bounce: bounce 2s infinite;
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+}
