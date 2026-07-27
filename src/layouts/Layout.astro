@@ -1,4 +1,10 @@
 ---
+// Self-hosted variable fonts. Previously these came from a render-blocking
+// fonts.googleapis.com stylesheet that cost ~880ms of FCP on throttled mobile.
+// Each family is one variable file covering the whole weight range, and the
+// per-subset unicode-range means only the latin file is actually downloaded.
+import '@fontsource-variable/geist/wght.css';
+import '@fontsource-variable/playfair-display/wght.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 
@@ -26,9 +32,6 @@ const { title } = Astro.props;
     <meta name="twitter:image" content="https://unchained.vercel.app/og-image.png" />
     <meta name="theme-color" content="#0a0a0a" />
     <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23d4a574'>🕊</text></svg>" />
   </head>
   <body>

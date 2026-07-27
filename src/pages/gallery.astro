@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 
 // Real campaign artwork for the Unchained Rescue Gala (18 July 2026, Sydney),
 // bundled locally so they resolve in the production build. Portrait posters are
@@ -84,12 +85,21 @@ const posters = [
   <!-- Poster Gallery -->
   <section id="gallery" class="py-20 px-4 md:px-12 bg-gradient-to-b from-charcoal to-black">
     <div class="max-w-7xl mx-auto columns-1 sm:columns-2 lg:columns-3 gap-8">
-      {posters.map((p) => (
+      {posters.map((p, i) => (
         <figure class="mb-8 break-inside-avoid group relative overflow-hidden rounded-2xl border border-gold/20 bg-charcoal hover:border-gold/50 transition-colors duration-300">
-          <img
-            src={p.image.src}
+          {/* The first poster is above the fold and is this page's LCP element,
+              so it loads eagerly at high priority. Lazy-loading it previously
+              cost ~6.2s of LCP "load delay" on throttled mobile. The rest stay
+              lazy. Widths cover the masonry's 1/2/3-column breakpoints at 2x. */}
+          <Image
+            src={p.image}
             alt={`${p.title} — Unchained campaign artwork`}
-            loading="lazy"
+            widths={[400, 608, 816, 1216]}
+            sizes="(min-width: 1024px) 403px, (min-width: 640px) 45vw, 100vw"
+            format="webp"
+            quality={80}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : 'auto'}
             class="w-full h-auto block group-hover:scale-[1.02] transition-transform duration-500"
           />
           <figcaption class="p-6">

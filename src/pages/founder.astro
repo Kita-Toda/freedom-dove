@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 import MediaCard from '../components/ui/MediaCard';
 import Icon from '../components/Icon.astro';
 import soniaPortrait from '../images/Sonia_Qutami1.jpg';
@@ -29,9 +30,17 @@ import soniaSpeaking from '../images/Sonia_Qutami2.jpg';
         <!-- Image 1 with Creative Card -->
         <div class="group">
           <div class="relative overflow-hidden rounded-3xl border-2 border-gold/30 hover:border-gold/60 transition-all duration-300 h-full">
-            <img
-              src={soniaPortrait.src}
+            {/* Below the fold, so lazy. Loading these two eagerly at full size
+                saturated the connection and pushed this page's LCP (the hero
+                paragraph above) out to ~11.5s on throttled mobile. */}
+            <Image
+              src={soniaPortrait}
               alt="Sonia Qutami - Founder of Unchained"
+              widths={[400, 512, 800, 1024]}
+              sizes="(min-width: 768px) 512px, 100vw"
+              format="webp"
+              quality={80}
+              loading="lazy"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -46,9 +55,14 @@ import soniaSpeaking from '../images/Sonia_Qutami2.jpg';
         <!-- Image 2 with Creative Card -->
         <div class="group">
           <div class="relative overflow-hidden rounded-3xl border-2 border-mauve/30 hover:border-mauve/60 transition-all duration-300 h-full">
-            <img
-              src={soniaSpeaking.src}
+            <Image
+              src={soniaSpeaking}
               alt="Sonia Qutami Speaking At Event"
+              widths={[400, 512, 800, 1024]}
+              sizes="(min-width: 768px) 512px, 100vw"
+              format="webp"
+              quality={80}
+              loading="lazy"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">

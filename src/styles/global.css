@@ -33,7 +33,7 @@
   body {
     background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
     color: var(--cream);
-    font-family: 'Geist', sans-serif;
+    font-family: var(--font-sans);
     overflow-x: hidden;
     position: relative;
   }
@@ -58,7 +58,7 @@
   h4,
   h5,
   h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-serif);
     font-weight: 900;
     /* Relative tracking so small headings (FAQ, card titles) keep their word
        spacing; large display headings still opt into tighter -2px inline. */
@@ -94,8 +94,8 @@
   --color-cream: #f5f1e8;
   --color-gray-dark: #3a3a3a;
 
-  --font-sans: 'Geist', sans-serif;
-  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Geist Variable', 'Geist', sans-serif;
+  --font-serif: 'Playfair Display Variable', 'Playfair Display', serif;
 
   --tracking-button: 0.75px;
   --tracking-label: 0.5px;
