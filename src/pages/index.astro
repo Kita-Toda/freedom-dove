@@ -1,18 +1,65 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getImage } from 'astro:assets';
 import DoveHero from '../components/ui/DoveHero';
 import Icon from '../components/Icon.astro';
+import doveDesktop from '../images/dove_eye_fixed.png';
+// Derived from mob_dove.jpeg: that file is an opaque JPEG, so dropping it in
+// as-is painted a black rectangle over the beams. mix-blend-screen does not
+// help — the hero's z-10 creates a stacking context, so the blend never reaches
+// the canvas behind it. mob_dove_cutout.png is the same artwork with its black
+// field keyed out to alpha (luminance as the alpha channel) and cropped to the
+// bird. Regenerate it if mob_dove.jpeg is ever replaced.
+import doveMobile from '../images/mob_dove_cutout.png';
+
+// getImage + a hand-written <picture> rather than two <Image>s behind
+// hidden/md:block: browsers still download images that are display:none, so the
+// class-swap approach fetched both artworks on every viewport. <source media>
+// makes the browser choose exactly one.
+const doveMobileImg = await getImage({
+  src: doveMobile, format: 'webp', quality: 82, widths: [320, 480, 640],
+});
+const doveDesktopImg = await getImage({
+  src: doveDesktop, format: 'webp', quality: 85, widths: [420, 602, 840],
+});
 ---
 
 <Layout title="Unchained — End Human Trafficking">
   <div id="main" class="relative z-10">
     <!-- Hero Section with Dove Component -->
-    {/* client:idle, not client:load. Everything above the fold here (mission
-        text, gradients, scroll prompt) is server-rendered, so deferring
-        hydration costs nothing visually — the dove canvas and beams simply
-        fade in a beat later. Measured over 3 runs: FCP 2.0s -> 1.5s,
-        LCP 2.9s -> 1.6s, Lighthouse 93 -> 97. */}
-    <DoveHero client:idle missionText="For The Forgotten. For The Voiceless. For A World Without Chains." />
+    {/* client:idle, not client:load. Everything above the fold here (dove,
+        mission text, gradients, scroll prompt) is server-rendered, so deferring
+        hydration costs nothing visually — only the beams canvas needs JS and it
+        simply fades in a beat later. Measured over 3 runs: FCP 2.0s -> 1.5s,
+        LCP 2.9s -> 1.6s, Lighthouse 93 -> 97.
+
+        The dove is passed in as a slot rather than imported inside DoveHero,
+        because astro:assets (and therefore WebP + srcset) is unavailable inside
+        a React component. Swapping the two artworks with hidden/md:block keeps
+        it pure CSS — no hydration, no matchMedia, and each viewport downloads
+        only the image it shows. */}
+    <DoveHero client:idle missionText="For The Forgotten. For The Voiceless. For A World Without Chains.">
+      <picture>
+        <source
+          media="(min-width: 768px)"
+          srcset={doveDesktopImg.srcSet.attribute}
+          sizes="38vw"
+          width={doveDesktopImg.attributes.width}
+          height={doveDesktopImg.attributes.height}
+        />
+        <img
+          src={doveMobileImg.src}
+          srcset={doveMobileImg.srcSet.attribute}
+          sizes="62vw"
+          width={doveMobileImg.attributes.width}
+          height={doveMobileImg.attributes.height}
+          alt="A dove in flight carrying an olive branch"
+          loading="eager"
+          fetchpriority="high"
+          class="w-[72%] max-w-sm md:w-auto md:max-w-none md:h-full max-h-full object-contain"
+        />
+      </picture>
+    </DoveHero>
 
     <!-- Mission Section -->
     <section class="min-h-screen py-32 px-4 md:px-12 bg-gradient-to-b from-black to-charcoal relative z-20">
