@@ -130,18 +130,27 @@ document.addEventListener('click', (event) => {
   if (!target) return;
 
   event.preventDefault();
-  scrollToTarget(target, true);
-  history.pushState(null, '', url.hash);
 
-  // preventDefault() also cancels the focus move a native hash jump performs,
-  // which would silently break the "Skip to main content" link for keyboard
-  // and screen-reader users. Reinstate it: tabindex="-1" makes a non-
-  // interactive target programmatically focusable without adding it to the
-  // tab order, and preventScroll stops the browser undoing the smooth scroll.
+  /**
+   * Focus BEFORE scrolling, not after.
+   *
+   * preventDefault() cancels the focus move a native hash jump performs, which
+   * would silently break "Skip to main content" for keyboard and screen-reader
+   * users, so we reinstate it — tabindex="-1" makes a non-interactive target
+   * programmatically focusable without adding it to the tab order.
+   *
+   * But focusing an element inside ScrollSmoother's transformed content still
+   * drags the native scroller to it despite preventScroll: true, which landed
+   * the target flush at viewport top, underneath the fixed header. Doing it
+   * first means our own scrollTo runs last and wins.
+   */
   if (target instanceof HTMLElement) {
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
     target.focus({ preventScroll: true });
   }
+
+  scrollToTarget(target, true);
+  history.pushState(null, '', url.hash);
 });
 
 // Cross-page anchors (e.g. /#impact from /about) arrive with the hash already
