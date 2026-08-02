@@ -33,14 +33,39 @@ const { title } = Astro.props;
     <meta name="theme-color" content="#0a0a0a" />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23d4a574'>🕊</text></svg>" />
+    {/* Blocking, before first paint: .scroll-reveal only hides itself once we
+        know JS is running, so with JS off the content is simply visible.
+        The timeout is the second half of that guarantee — if scroll.ts never
+        signals ready (bundle blocked, GSAP throws), we drop the class and the
+        page renders unanimated rather than leaving whole sections at
+        opacity 0 with no way back. */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      setTimeout(function () {
+        if (!document.documentElement.classList.contains('scroll-ready')) {
+          document.documentElement.classList.remove('js');
+        }
+      }, 3000);
+    </script>
   </head>
   <body>
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-[999] focus:bg-gold focus:text-black focus:px-4 focus:py-2 focus:font-bold">
       Skip to main content
     </a>
+    {/* Nav sits outside #smooth-wrapper on purpose. ScrollSmoother drives the
+        page by transforming #smooth-content, and a transformed ancestor
+        becomes the containing block for position:fixed descendants — the
+        header would scroll away with the content instead of staying put. */}
     <Nav />
-    <main id="main-content">
-      <slot />
-    </main>
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main id="main-content">
+          <slot />
+        </main>
+      </div>
+    </div>
+    <script>
+      import '../scripts/scroll.ts';
+    </script>
   </body>
 </html>

@@ -84,6 +84,10 @@ const posters = [
 
   <!-- Poster Gallery -->
   <section id="gallery" class="py-20 px-4 md:px-12 bg-gradient-to-b from-charcoal to-black">
+    {/* The grid jumped straight from the page h1 to the per-poster h3s, so
+        assistive tech saw a skipped level. The section is visually titled by
+        the hero above it, hence sr-only rather than a new visible heading. */}
+    <h2 class="sr-only">Campaign gallery</h2>
     <div class="max-w-7xl mx-auto columns-1 sm:columns-2 lg:columns-3 gap-8">
       {posters.map((p, i) => (
         <figure class="mb-8 break-inside-avoid group relative overflow-hidden rounded-2xl border border-gold/20 bg-charcoal hover:border-gold/50 transition-colors duration-300">

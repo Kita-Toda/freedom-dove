@@ -26,8 +26,29 @@
     --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   }
 
+  /* Native smooth scrolling is left off: ScrollSmoother drives scrolling with
+     a transform, and the two fight over the same gesture (the browser animates
+     scrollTop while the smoother eases the content, producing a double-ease
+     wobble). scroll.ts routes anchor jumps through the smoother instead.
+     Reduced-motion users get no smoother, so they get instant jumps, which is
+     what that preference asks for anyway. */
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
+  }
+
+  /* Pre-JS state for scroll reveals. Scoped to .js (set by a blocking inline
+     script in Layout.astro) so that with JS off or broken the content is
+     simply visible rather than stuck at opacity 0 forever. */
+  .js .scroll-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .scroll-reveal {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   body {
@@ -75,11 +96,6 @@
     color: var(--gold-light);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
 }
 
 /* Tailwind v4 theme. Replaces the `theme.extend` block that previously lived in

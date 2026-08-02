@@ -43,9 +43,14 @@ export default function DoveHero({
           {children}
         </div>
 
-        <p className="text-lg sm:text-xl text-cream font-light tracking-wide max-w-2xl mx-auto text-center text-balance">
+        {/* An <h1>, not a <p>: this is the only heading-weight text on the
+            home page, and without it the site's primary page shipped with no
+            top-level heading at all. font-sans/font-light restate what the
+            global `h1` base rule would otherwise impose (Playfair, weight
+            900), so the wording and appearance are unchanged. */}
+        <h1 className="text-lg sm:text-xl text-cream font-sans font-light tracking-wide max-w-2xl mx-auto text-center text-balance">
           {missionText}
-        </p>
+        </h1>
       </div>
 
       {/* Scroll Prompt */}

@@ -141,7 +141,7 @@ const doveDesktopImg = await getImage({
               glowColor: 'from-gold-light/25 to-gold/10',
             },
           ].map((stat, i) => (
-            <div key={i} class="scroll-reveal" style={`--delay: ${i * 100}ms`}>
+            <div key={i} class="scroll-reveal">
               <div class="relative group">
                 <div class={`absolute -inset-2 bg-gradient-to-r ${stat.glowColor} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl`}></div>
                 <div class={`relative bg-charcoal/50 border ${stat.borderColor} rounded-2xl p-8 backdrop-blur-sm hover:border-opacity-100 transition-colors duration-300`}>
@@ -186,7 +186,7 @@ const doveDesktopImg = await getImage({
               region: 'Global',
             },
           ].map((story, i) => (
-            <div key={i} class="scroll-reveal" style={`--delay: ${i * 150}ms`}>
+            <div key={i} class="scroll-reveal">
               <div class="group relative">
                 <div class="absolute -inset-4 bg-gradient-to-r from-gold/10 to-mauve/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
                 <div class="relative bg-charcoal border border-gold/20 rounded-2xl p-8 md:p-12 group-hover:border-gold/50 transition-colors duration-300">
@@ -336,16 +336,12 @@ const doveDesktopImg = await getImage({
     animation: bounce 2s infinite;
   }
 
-  .scroll-reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
-    --delay: 0ms;
-    animation-delay: var(--delay);
-  }
+  /* .scroll-reveal now lives in global.css and is animated by scripts/scroll.ts.
+     It used to carry `animation: fadeInUp ... both` here, which fired on page
+     load regardless of scroll position and beat GSAP's inline styles in the
+     cascade — so nothing actually revealed on scroll. */
 
   @media (prefers-reduced-motion: reduce) {
-    .scroll-reveal,
     .animate-fade-in-up,
     .animate-bounce {
       animation: none;
@@ -369,42 +365,3 @@ const doveDesktopImg = await getImage({
   }
 </style>
 
-<script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Scroll-triggered reveals
-  document.querySelectorAll('.scroll-reveal').forEach((element) => {
-    gsap.to(element, {
-      scrollTrigger: {
-        trigger: element,
-        start: 'top 80%',
-        end: 'top 20%',
-        toggleActions: 'play none none reverse',
-      },
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: 'cubic-bezier(0.23, 1, 0.32, 1)',
-    });
-  });
-
-  // Parallax effect on sections
-  gsap.utils.toArray<HTMLElement>('section').forEach((section) => {
-    gsap.to(section, {
-      scrollTrigger: {
-        trigger: section,
-        start: 'top center',
-        end: 'bottom center',
-        markers: false,
-      },
-      y: (i, target) => {
-        return window.innerHeight * 0.05;
-      },
-      duration: 1,
-      ease: 'power1.inOut',
-    });
-  });
-</script>
